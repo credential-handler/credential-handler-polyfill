@@ -1,0 +1,27 @@
+{
+  "name": "credential-handler-polyfill",
+  "version": "0.0.1-0",
+  "description": "Credential Handler API Polyfill",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalbazaar/credential-handler-polyfill.git"
+  },
+  "author": {
+    "name": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "url": "http://digitalbazaar.com"
+  },
+  "bugs": {
+    "url": "https://github.com/digitalbazaar/credential-handler-polyfill/issues"
+  },
+  "homepage": "https://github.com/digitalbazaar/credential-handler-polyfill",
+  "dependencies": {
+    "web-request-rpc": "^0.0.3"
+  },
+  "bedrock": {
+    "browserDependencies": [
+      "web-request-rpc"
+    ]
+  }
+}

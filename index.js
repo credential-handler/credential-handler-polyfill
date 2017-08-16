@@ -53,7 +53,7 @@ export async function load(mediatorUrl) {
   polyfill.CredentialManager = CredentialManager;
 
   // TODO: only expose CredentialsContainer API when appropriate
-  polyfill.CredentialsContainer = new CredentialsContainer(injector);
+  polyfill.credentials = new CredentialsContainer(injector);
 
   // expose polyfill
   navigator.credentialsPolyfill = polyfill;

@@ -7,14 +7,12 @@
 
 import * as rpc from 'web-request-rpc';
 
-import {PaymentHandler} from './PaymentHandler';
-import {PaymentHandlers} from './PaymentHandlers';
-import {PaymentManager} from './PaymentManager';
-import {PaymentRequest} from './PaymentRequest';
+import {CredentialHandler} from './CredentialHandler';
+import {CredentialHandlers} from './CredentialHandlers';
+import {CredentialManager} from './CredentialManager';
+import {CredentialsContainer} from './CredentialsContainer';
 
 // RPC timeouts, 0 = indefinite
-const PAYMENT_ABORT_TIMEOUT = 40 * 1000;
-const PAYMENT_REQUEST_TIMEOUT = 0;
 const PERMISSION_REQUEST_TIMEOUT = 0;
 
 let loaded;
@@ -26,11 +24,11 @@ export async function loadOnce(mediatorUrl) {
 }
 
 export async function load(mediatorUrl) {
-  console.log('loading payment handler polyfill...');
+  console.log('loading credential handler polyfill...');
   const polyfill = {};
 
   if(!mediatorUrl) {
-    mediatorUrl = 'https://payment.mediator.dev:12443/mediator?origin=' +
+    mediatorUrl = 'https://credential.mediator.dev:15443/mediator?origin=' +
       encodeURIComponent(window.location.origin)
   }
 
@@ -38,12 +36,6 @@ export async function load(mediatorUrl) {
   const appContext = new rpc.WebAppContext();
   const injector = await appContext.createWindow(mediatorUrl);
 
-  // TODO: only install PaymentRequestService when appropriate
-  polyfill._paymentRequestService = injector.get('paymentRequest', {
-    functions: [
-      {name: 'show', options: {timeout: PAYMENT_REQUEST_TIMEOUT}},
-      {name: 'abort', options: {timeout: PAYMENT_ABORT_TIMEOUT}}]
-  });
   polyfill.permissions = injector.get('permissionManager', {
     functions: [
       'query',
@@ -51,27 +43,22 @@ export async function load(mediatorUrl) {
       'revoke']
   });
 
-  // TODO: only install PaymentHandlers API when appropriate
-  polyfill.PaymentHandlers = new PaymentHandlers(injector);
+  // TODO: only install CredentialHandlers API when appropriate
+  polyfill.CredentialHandlers = new CredentialHandlers(injector);
 
-  // TODO: only expose PaymentHandler API when appropriate
-  polyfill.PaymentHandler = PaymentHandler;
+  // TODO: only expose CredentialHandler API when appropriate
+  polyfill.CredentialHandler = CredentialHandler;
 
-  // TODO: only expose PaymentManager API when appropriate
-  polyfill.PaymentManager = PaymentManager;
+  // TODO: only expose CredentialManager API when appropriate
+  polyfill.CredentialManager = CredentialManager;
 
-  // TODO: only expose PaymentRequest API when appropriate
-  polyfill.PaymentRequest = PaymentRequest;
+  // TODO: only expose CredentialsContainer API when appropriate
+  polyfill.CredentialsContainer = new CredentialsContainer(injector);
 
   // expose polyfill
-  navigator.paymentPolyfill = polyfill;
+  navigator.credentialsPolyfill = polyfill;
 
-  // TODO: name for `XCredential`?
-  //   VerifiableClaimCredential?
-  //   AttributeCredential?
-  //   ProfileCredential?
-
-  console.log('payment handler polyfill loaded');
+  console.log('credential handler polyfill loaded');
 
   return polyfill;
 };

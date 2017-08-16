@@ -9,14 +9,19 @@
 
 import {WebCredential} from './WebCredential';
 
+// RPC timeouts, 0 = indefinite
+const CREDENTIAL_GET_TIMEOUT = 0;
+const CREDENTIAL_STORE_TIMEOUT = 0;
+
 export class CredentialsContainer {
-  constructor(url, injector) {
+  constructor(injector) {
     this._nativeCredentialsContainer = navigator.credentials;
     this._remote = injector.get('credentialsContainer', {
-      functions: ['get', 'store']
+      functions: [
+        {name: 'get', options: {timeout: CREDENTIAL_GET_TIMEOUT}},
+        {name: 'store', options: {timeout: CREDENTIAL_STORE_TIMEOUT}}
+      ]
     });
-    this._remote.get = this._remote.get.bind(this, url);
-    this._remote.store = this._remote.store.bind(this, url);
   }
 
   async get(/*CredentialRequestOptions*/ options = {}) {

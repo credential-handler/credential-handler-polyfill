@@ -10,7 +10,7 @@ import * as rpc from 'web-request-rpc';
 
 import {CredentialHandlerService} from './CredentialHandlerService';
 
-const EVENT_TYPES = ['credentialrequest'];
+const EVENT_TYPES = ['credentialrequest', 'credentialstore'];
 
 export class CredentialHandler extends rpc.WebApp {
   constructor(mediatorOrigin) {

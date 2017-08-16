@@ -26,7 +26,7 @@ export class CredentialManager {
    *           permission (e.g. 'granted'/'denied').
    */
   static async requestPermission() {
-    const status = await navigator.credentialPolyfill.permissions.request(
+    const status = await navigator.credentialsPolyfill.permissions.request(
       {name: 'credentialhandler'});
     return status.state;
   }

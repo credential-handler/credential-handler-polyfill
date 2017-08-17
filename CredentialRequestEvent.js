@@ -29,7 +29,9 @@ export class CredentialRequestEvent extends Event {
 
     // TODO: ensure `url` is to the same origin
     await this._credentialHandler.show();
-    const appWindow = new rpc.WebAppWindow(url);
+    const appWindow = new rpc.WebAppWindow(url, {
+      className: 'credential-handler'
+    });
     appWindow.ready();
     appWindow.show();
     // TODO: note that `appWindow.handle` is not a ServiceWorker

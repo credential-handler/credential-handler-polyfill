@@ -35,7 +35,9 @@ export async function load(mediatorUrl) {
 
   //const url = 'https://bedrock.dev:18443/mediator';
   const appContext = new rpc.WebAppContext();
-  const injector = await appContext.createWindow(mediatorUrl);
+  const injector = await appContext.createWindow(mediatorUrl, {
+    className: 'credential-mediator'
+  });
 
   polyfill.permissions = injector.get('permissionManager', {
     functions: [

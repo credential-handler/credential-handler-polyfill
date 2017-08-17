@@ -11,6 +11,7 @@ import {CredentialHandler} from './CredentialHandler';
 import {CredentialHandlers} from './CredentialHandlers';
 import {CredentialManager} from './CredentialManager';
 import {CredentialsContainer} from './CredentialsContainer';
+import {WebCredential} from './WebCredential';
 
 // RPC timeouts, 0 = indefinite
 const PERMISSION_REQUEST_TIMEOUT = 0;
@@ -54,6 +55,9 @@ export async function load(mediatorUrl) {
 
   // TODO: only expose CredentialsContainer API when appropriate
   polyfill.credentials = new CredentialsContainer(injector);
+
+  // TODO: only expose WebCredential API when appropriate
+  polyfill.WebCredential = WebCredential;
 
   // expose polyfill
   navigator.credentialsPolyfill = polyfill;

@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 0.0.1 - 2017-xx-xx
+## 0.0.1 - 2017-08-18
 
 ### Added
 - Add core files.

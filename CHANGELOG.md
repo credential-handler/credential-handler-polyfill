@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.0.2 - 2017-08-18
+
+### Changed
+- Update deps.
+
 ## 0.0.1 - 2017-08-18
 
 ### Added

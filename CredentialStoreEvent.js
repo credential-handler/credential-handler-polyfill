@@ -19,7 +19,7 @@ export class CredentialStoreEvent /*extends Event*/ {
     hintKey
   }) {
     //super('credentialstore');
-    this.name = 'credentialstore';
+    this.type = 'credentialstore';
     this._credentialHandler = credentialHandler;
     this.credential = credential;
     this.hintKey = hintKey;

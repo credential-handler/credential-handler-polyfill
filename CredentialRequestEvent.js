@@ -19,7 +19,7 @@ export class CredentialRequestEvent /*extends Event*/ {
     hintKey
   }) {
     //super('credentialrequest');
-    this.name = 'credentialrequest';
+    this.type = 'credentialrequest';
     this._credentialHandler = credentialHandler;
     this.credentialRequestOptions = credentialRequestOptions;
     this.hintKey = hintKey;

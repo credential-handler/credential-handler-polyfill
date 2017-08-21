@@ -12,13 +12,14 @@ import * as rpc from 'web-request-rpc';
 // can't use "ExtendableEvent"; only accessible from Workers
 // TODO: may not be able to even extend `Event` here; could produce "incorrect"
 //   core attributes
-export class CredentialRequestEvent extends Event {
+export class CredentialRequestEvent /*extends Event*/ {
   constructor({
     credentialHandler,
     credentialRequestOptions,
     hintKey
   }) {
-    super('credentialrequest');
+    //super('credentialrequest');
+    this.name = 'credentialrequest';
     this._credentialHandler = credentialHandler;
     this.credentialRequestOptions = credentialRequestOptions;
     this.hintKey = hintKey;

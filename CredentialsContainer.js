@@ -27,6 +27,10 @@ export class CredentialsContainer {
   async get(/*CredentialRequestOptions*/ options = {}) {
     if(options.web) {
       const credential = await this._remote.get(options);
+      if(!credential) {
+        // no credential selected
+        return null;
+      }
       // TODO: validate credential
       return new WebCredential(credential.dataType, credential.data);
     }
@@ -39,6 +43,10 @@ export class CredentialsContainer {
   async store(credential) {
     if(credential instanceof WebCredential) {
       const result = await this._remote.store(credential);
+      if(!result) {
+        // nothing stored
+        return null;
+      }
       // TODO: validate result
       return new WebCredential(result.dataType, result.data);
     }

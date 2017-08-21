@@ -1,5 +1,11 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.1 - 2017-08-21
+
+### Changed
+- Prefetch icons.
+- Allow `null` credential response.
+
 ## 0.1.0 - 2017-08-18
 
 ## 0.0.2 - 2017-08-18

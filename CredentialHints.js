@@ -39,7 +39,7 @@ function imageToDataUrl(url) {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = () => {
-      const canvas = document.createElement('canvas');
+      let canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       canvas.height = this.height;
       canvas.width = this.width;
@@ -48,6 +48,7 @@ function imageToDataUrl(url) {
       resolve(dataUrl);
       canvas = null;
     };
+    // TODO: `reject` as an error and fail `.set`?
     img.onerror = () => resolve(null);
     img.src = url;
   });

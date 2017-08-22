@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.2 - 2017-08-22
+
+### Changed
+- Do not inherit custom events from `Event`.
+
 ## 0.1.1 - 2017-08-21
 
 ### Changed

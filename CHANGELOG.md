@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.3 - 2017-08-29
+
+### Fixed
+- Fix bug in `imageToDataUrl`.
+
 ## 0.1.2 - 2017-08-22
 
 ### Changed

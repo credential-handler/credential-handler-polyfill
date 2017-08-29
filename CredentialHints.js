@@ -41,9 +41,9 @@ function imageToDataUrl(url) {
     img.onload = () => {
       let canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      canvas.height = this.height;
-      canvas.width = this.width;
-      ctx.drawImage(this, 0, 0);
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 0, 0);
       const dataUrl = canvas.toDataURL();
       resolve(dataUrl);
       canvas = null;

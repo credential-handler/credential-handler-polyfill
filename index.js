@@ -7,11 +7,11 @@
 
 import * as rpc from 'web-request-rpc';
 
-import {CredentialHandler} from './CredentialHandler';
-import {CredentialHandlers} from './CredentialHandlers';
-import {CredentialManager} from './CredentialManager';
-import {CredentialsContainer} from './CredentialsContainer';
-import {WebCredential} from './WebCredential';
+import {CredentialHandler} from './CredentialHandler.js';
+import {CredentialHandlers} from './CredentialHandlers.js';
+import {CredentialManager} from './CredentialManager.js';
+import {CredentialsContainer} from './CredentialsContainer.js';
+import {WebCredential} from './WebCredential.js';
 
 // RPC timeouts, 0 = indefinite
 const PERMISSION_REQUEST_TIMEOUT = 0;

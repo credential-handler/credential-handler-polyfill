@@ -8,7 +8,7 @@
 
 import {utils} from 'web-request-rpc';
 
-import {CredentialHints} from './CredentialHints';
+import {CredentialHints} from './CredentialHints.js';
 
 export class CredentialManager {
   constructor(url, injector) {

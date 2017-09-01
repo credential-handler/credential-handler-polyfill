@@ -8,7 +8,7 @@
 
 import * as rpc from 'web-request-rpc';
 
-import {CredentialHandlerService} from './CredentialHandlerService';
+import {CredentialHandlerService} from './CredentialHandlerService.js';
 
 const EVENT_TYPES = ['credentialrequest', 'credentialstore'];
 

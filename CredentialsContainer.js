@@ -7,7 +7,7 @@
 /* global navigator, DOMException */
 'use strict';
 
-import {WebCredential} from './WebCredential';
+import {WebCredential} from './WebCredential.js';
 
 // RPC timeouts, 0 = indefinite
 const CREDENTIAL_GET_TIMEOUT = 0;

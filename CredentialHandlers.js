@@ -5,7 +5,8 @@
  */
 'use strict';
 
-import {CredentialHandlerRegistration} from './CredentialHandlerRegistration';
+import {CredentialHandlerRegistration}
+  from './CredentialHandlerRegistration.js';
 
 export class CredentialHandlers {
   constructor(injector) {

@@ -6,7 +6,7 @@
  */
 'use strict';
 
-import {CredentialManager} from './CredentialManager';
+import {CredentialManager} from './CredentialManager.js';
 
 export class CredentialHandlerRegistration {
   constructor(url, injector) {

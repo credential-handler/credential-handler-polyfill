@@ -5,8 +5,8 @@
  */
 'use strict';
 
-import {CredentialRequestEvent} from './CredentialRequestEvent';
-import {CredentialStoreEvent} from './CredentialStoreEvent';
+import {CredentialRequestEvent} from './CredentialRequestEvent.js';
+import {CredentialStoreEvent} from './CredentialStoreEvent.js';
 
 export class CredentialHandlerService {
   constructor(credentialHandler) {

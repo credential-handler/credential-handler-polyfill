@@ -64,6 +64,18 @@ export async function load(mediatorUrl) {
   // expose polyfill
   navigator.credentialsPolyfill = polyfill;
 
+  // polyfill
+  if('credentials' in navigator) {
+    navigator.credentials.get = polyfill.credentials.get.bind(
+      polyfill.credentials);
+    navigator.credentials.store = polyfill.credentials.store.bind(
+      polyfill.credentials);
+  } else {
+    navigator.credentials = polyfill.credentials;
+  }
+  window.CredentialManager = CredentialManager;
+  window.WebCredential = WebCredential;
+
   console.log('credential handler polyfill loaded');
 
   return polyfill;

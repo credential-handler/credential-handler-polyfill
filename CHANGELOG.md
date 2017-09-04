@@ -1,5 +1,12 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.5 - 2017-09-04
+
+### Added
+- Include credential request origin. TBD how
+  origin will be blinded; but will still be included
+  for targeting during signing of verifiable profile.
+
 ## 0.1.4 - 2017-09-03
 
 ### Added

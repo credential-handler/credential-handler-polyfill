@@ -15,12 +15,14 @@ import * as rpc from 'web-request-rpc';
 export class CredentialStoreEvent /*extends Event*/ {
   constructor({
     credentialHandler,
+    credentialRequestOrigin,
     credential,
     hintKey
   }) {
     //super('credentialstore');
     this.type = 'credentialstore';
     this._credentialHandler = credentialHandler;
+    this.credentialRequestOrigin = credentialRequestOrigin;
     this.credential = credential;
     this.hintKey = hintKey;
   }

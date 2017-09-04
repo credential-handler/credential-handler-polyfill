@@ -25,7 +25,6 @@ export async function loadOnce(mediatorUrl) {
 }
 
 export async function load(mediatorUrl) {
-  console.log('loading credential handler polyfill...');
   const polyfill = {};
 
   if(!mediatorUrl) {
@@ -75,8 +74,6 @@ export async function load(mediatorUrl) {
   }
   window.CredentialManager = CredentialManager;
   window.WebCredential = WebCredential;
-
-  console.log('credential handler polyfill loaded');
 
   return polyfill;
 };

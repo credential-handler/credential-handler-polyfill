@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.4 - 2017-09-03
+
+### Added
+- Auto-install polyfill.
+
 ## 0.1.3 - 2017-08-29
 
 ### Fixed

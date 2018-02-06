@@ -12,6 +12,7 @@
     "email": "support@digitalbazaar.com",
     "url": "http://digitalbazaar.com"
   },
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/digitalbazaar/credential-handler-polyfill/issues"
   },

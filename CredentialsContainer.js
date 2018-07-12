@@ -15,7 +15,14 @@ const CREDENTIAL_STORE_TIMEOUT = 0;
 
 export class CredentialsContainer {
   constructor(injector) {
-    this._nativeCredentialsContainer = navigator.credentials;
+    if (typeof navigator.credentials === "object") {
+      this._nativeCredentialsContainer = {};
+      this._nativeCredentialsContainer.get = navigator.credentials.get.bind(navigator.credentials);
+      this._nativeCredentialsContainer.store = navigator.credentials.store.bind(navigator.credentials);
+      this._nativeCredentialsContainer.create = navigator.credentials.create.bind(navigator.credentials);
+      this._nativeCredentialsContainer.preventSilentAccess = navigator.credentials.preventSilentAccess.bind(navigator.credentials);
+    }
+
     this._remote = injector.get('credentialsContainer', {
       functions: [
         {name: 'get', options: {timeout: CREDENTIAL_GET_TIMEOUT}},

@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 0.1.7 - 2018-07-15
+
+### Fixed
+- Fix native get() recursion.
+
 ## 0.1.6 - 2017-09-04
 
 ### Fixed

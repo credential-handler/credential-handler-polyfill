@@ -59,18 +59,4 @@ export class CredentialsContainer {
     }
     throw new DOMException('Not implemented.', 'NotSupportedError');
   }
-
-  async create(/*CredentialCreationOptions*/ options = {}) {
-    if(this._nativeCredentialsContainer) {
-      return this._nativeCredentialsContainer.create(options);
-    }
-    throw new DOMException('Not implemented.', 'NotSupportedError');
-  }
-
-  async preventSilentAccess() {
-    if(this._nativeCredentialsContainer) {
-      return this._nativeCredentialsContainer.preventSilentAccess();
-    }
-    throw new DOMException('Not implemented.', 'NotSupportedError');
-  }
 }

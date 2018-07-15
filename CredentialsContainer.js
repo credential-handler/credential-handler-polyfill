@@ -38,7 +38,7 @@ export class CredentialsContainer {
       // TODO: validate credential
       return new WebCredential(credential.dataType, credential.data);
     }
-    if(this._nativeCredentialsContainer) {
+    if(this._nativeCredentialsContainer.get) {
       return this._nativeCredentialsContainer.get(options);
     }
     throw new DOMException('Not implemented.', 'NotSupportedError');
@@ -54,7 +54,7 @@ export class CredentialsContainer {
       // TODO: validate result
       return new WebCredential(result.dataType, result.data);
     }
-    if(this._nativeCredentialsContainer) {
+    if(this._nativeCredentialsContainer.store) {
       return this._nativeCredentialsContainer.store(credential);
     }
     throw new DOMException('Not implemented.', 'NotSupportedError');

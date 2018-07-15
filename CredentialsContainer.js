@@ -15,7 +15,11 @@ const CREDENTIAL_STORE_TIMEOUT = 0;
 
 export class CredentialsContainer {
   constructor(injector) {
-    this._nativeCredentialsContainer = navigator.credentials;
+    this._nativeCredentialsContainer = {
+      get: navigator.credentials && navigator.credentials.get && navigator.credentials.get.bind(navigator.credentials),
+      store: navigator.credentials && navigator.credentials.store && navigator.credentials.store.bind(navigator.credentials),
+    };
+
     this._remote = injector.get('credentialsContainer', {
       functions: [
         {name: 'get', options: {timeout: CREDENTIAL_GET_TIMEOUT}},
@@ -34,7 +38,7 @@ export class CredentialsContainer {
       // TODO: validate credential
       return new WebCredential(credential.dataType, credential.data);
     }
-    if(this._nativeCredentialsContainer) {
+    if(this._nativeCredentialsContainer.get) {
       return this._nativeCredentialsContainer.get(options);
     }
     throw new DOMException('Not implemented.', 'NotSupportedError');
@@ -50,22 +54,8 @@ export class CredentialsContainer {
       // TODO: validate result
       return new WebCredential(result.dataType, result.data);
     }
-    if(this._nativeCredentialsContainer) {
+    if(this._nativeCredentialsContainer.store) {
       return this._nativeCredentialsContainer.store(credential);
-    }
-    throw new DOMException('Not implemented.', 'NotSupportedError');
-  }
-
-  async create(/*CredentialCreationOptions*/ options = {}) {
-    if(this._nativeCredentialsContainer) {
-      return this._nativeCredentialsContainer.create(options);
-    }
-    throw new DOMException('Not implemented.', 'NotSupportedError');
-  }
-
-  async preventSilentAccess() {
-    if(this._nativeCredentialsContainer) {
-      return this._nativeCredentialsContainer.preventSilentAccess();
     }
     throw new DOMException('Not implemented.', 'NotSupportedError');
   }

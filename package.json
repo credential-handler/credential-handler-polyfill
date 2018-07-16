@@ -24,5 +24,20 @@
     "browserDependencies": [
       "web-request-rpc"
     ]
+  },
+  "devDependencies": {
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.js.map",
+    "index.js",
+    "Credential*.js",
+    "WebCredential.js"
+  ],
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "webpack -p"
   }
 }

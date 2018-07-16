@@ -1,5 +1,9 @@
 # credential-handler-polyfill ChangeLog
 
+### Added
+- Build browser file with webpack.
+- Distribute plain min.js bundle (requires browser async/await support).
+
 ## 0.1.7 - 2018-07-15
 
 ### Fixed

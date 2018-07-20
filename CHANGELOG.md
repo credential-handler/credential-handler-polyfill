@@ -1,5 +1,7 @@
 # credential-handler-polyfill ChangeLog
 
+## 1.0.0 - 2018-07-20
+
 ### Changed
 - Update dependencies.
 

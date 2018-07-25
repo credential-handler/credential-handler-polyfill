@@ -1,12 +1,10 @@
 /*!
  * A CredentialManager for a Web Credential Mediator.
  *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator */
 'use strict';
-
-import {utils} from 'web-request-rpc';
 
 import {CredentialHints} from './CredentialHints.js';
 

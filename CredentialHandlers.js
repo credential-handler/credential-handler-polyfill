@@ -1,7 +1,7 @@
 /*!
  * Provides an API for working with CredentialHandlerRegistrations.
  *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
  */
 'use strict';
 
@@ -10,11 +10,13 @@ import {CredentialHandlerRegistration}
 
 export class CredentialHandlers {
   constructor(injector) {
-    this._injector = injector;
-    this._remote = injector.get('credentialHandlers', {
-      functions: [
-        'register', 'unregister', 'getRegistration', 'hasRegistration']
-    });
+    this._init = (async () => {
+      this._injector = await injector;
+      this._remote = this._injector.get('credentialHandlers', {
+        functions: [
+          'register', 'unregister', 'getRegistration', 'hasRegistration']
+      });
+    })();
   }
 
   /**
@@ -25,6 +27,7 @@ export class CredentialHandlers {
    * @return a Promise that resolves to the CredentialHandlerRegistration.
    */
   async register(url) {
+    await this._init;
     // register with credential mediator
     url = await this._remote.register('credential', url);
     return new CredentialHandlerRegistration(url, this._injector);
@@ -39,6 +42,7 @@ export class CredentialHandlers {
    *           and `false` if not.
    */
   async unregister(url) {
+    await this._init;
     // unregister with credential mediator
     return this._remote.unregister('credential', url);
   }
@@ -52,6 +56,7 @@ export class CredentialHandlers {
    *           `null` if no such registration exists.
    */
   async getRegistration(url) {
+    await this._init;
     url = await this._remote.getRegistration('credential', url);
     if(!url) {
       return null;
@@ -69,6 +74,7 @@ export class CredentialHandlers {
    *           `false` if not.
    */
   async hasRegistration(url) {
+    await this._init;
     return await this._remote.hasRegistration('credential', url);
   }
 }

@@ -1,5 +1,7 @@
 # credential-handler-polyfill ChangeLog
 
+## 1.0.1 - 2018-07-25
+
 ### Changed
 - Allow polyfill load to happen in parallel with
   relying party site load.

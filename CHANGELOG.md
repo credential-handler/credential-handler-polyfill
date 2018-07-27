@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 1.0.2 - 2018-07-27
+
+### Fixed
+- Add missing `PermissionManager.js`.
+
 ## 1.0.1 - 2018-07-25
 
 ### Changed

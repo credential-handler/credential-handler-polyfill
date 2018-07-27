@@ -34,6 +34,7 @@
     "dist/*.js.map",
     "index.js",
     "Credential*.js",
+    "PermissionManager.js",
     "WebCredential.js"
   ],
   "scripts": {

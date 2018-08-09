@@ -32,7 +32,9 @@ export async function load(mediatorUrl) {
 
   const appContext = new rpc.WebAppContext();
   const injector = appContext.createWindow(mediatorUrl, {
-    className: 'credential-mediator'
+    className: 'credential-mediator',
+    // 30 second timeout for loading the mediator
+    timeout: 30000
   });
 
   const polyfill = {};

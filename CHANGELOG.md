@@ -1,5 +1,8 @@
 # credential-handler-polyfill ChangeLog
 
+### Changed
+- Up mediator load timeout to 30 seconds.
+
 ## 1.0.2 - 2018-07-27
 
 ### Fixed

@@ -36,6 +36,13 @@ export async function load(mediatorUrl) {
     // 30 second timeout for loading the mediator
     timeout: 30000
   });
+  // ensure backdrop is transparent by default
+  const style = document.createElement('style');
+  style.appendChild(document.createTextNode(
+    `dialog.web-app-window.credential-mediator > .web-app-window-backdrop {
+      background-color: rgba(0, 0, 0, 0.25);
+    }`));
+  document.body.appendChild(style);
 
   const polyfill = {};
 

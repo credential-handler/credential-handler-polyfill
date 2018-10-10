@@ -1,5 +1,7 @@
 # credential-handler-polyfill ChangeLog
 
+## 1.0.4 - 2018-10-10
+
 ### Changed
 - Darken backdrop for mediator window.
 

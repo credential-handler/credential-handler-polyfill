@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 1.1.0 - 2019-xx-xx
+
+### Changed
+- Use webpack UMD target with 'credentialHandlerPolyfill' name.
+
 ## 1.0.4 - 2018-10-10
 
 ### Changed

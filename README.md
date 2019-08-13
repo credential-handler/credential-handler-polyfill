@@ -60,22 +60,30 @@ const loadPolyfillPromise = polyfill.loadOnce(mediatorUrl);
 
 ### Installing a Credential Handler
 
-### Getting a Web Credential
+### Receiving a Web Credential
+
+A web app (for example, a credential **issuer** such as a university or 
+institution) can ask to _store_ a credential, for example when the user pushes 
+a button to receive a credential.
+
+```js
+const result = await navigator.credentials.store({web: {}});
+if(!result) {
+  console.log('credential storage canceled');
+}
+```
+
+### Requesting a Web Credential
+
+A web app (a Relying Party or **verifier**) can request a credential from the 
+credential handler, for example when the user 
+pushes a button on a page that requires identity attributes or authentication.
 
 ```js
 const webCredential = await navigator.credentials.get({web: {}});
 
 if(!webCredential) {
   console.log('credential request canceled/denied'); // no response from user
-}
-```
-
-### Storing a Web Credential
-
-```js
-const result = await navigator.credentials.store({web: {}});
-if(!result) {
-  console.log('credential storage canceled');
 }
 ```
 

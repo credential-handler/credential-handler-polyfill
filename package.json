@@ -26,8 +26,8 @@
     ]
   },
   "devDependencies": {
-    "webpack": "^4.16.1",
-    "webpack-cli": "^3.0.8"
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
   },
   "files": [
     "dist/*.js",

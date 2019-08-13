@@ -18,7 +18,7 @@
 
 #### Including `credential-handler-api` in browser scripts
 
-Adding the following `<script>` makes the `navigator.credentialsPolyfill` object
+Adding the following `<script>` makes the `navigator.credentials` object
 available to your code.
 
 ```html
@@ -42,6 +42,42 @@ npm install
 ```
 
 ## Usage
+
+### Loading the Polyfill
+
+```js
+const polyfill = require('credential-handler-polyfill');
+// or
+import * as polyfill from 'credential-handler-polyfill';
+
+const MEDIATOR_ORIGIN = 'https://beta.authn.io';
+
+const mediatorUrl = MEDIATOR_ORIGIN + '/mediator?origin=' +
+  encodeURIComponent(window.location.origin);
+
+const loadPolyfillPromise = polyfill.loadOnce(mediatorUrl);
+```
+
+### Installing a Credential Handler
+
+### Getting a Web Credential
+
+```js
+const webCredential = await navigator.credentials.get({web: {}});
+
+if(!webCredential) {
+  console.log('credential request canceled/denied'); // no response from user
+}
+```
+
+### Storing a Web Credential
+
+```js
+const result = await navigator.credentials.store({web: {}});
+if(!result) {
+  console.log('credential storage canceled');
+}
+```
 
 ## Security
 

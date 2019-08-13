@@ -50,15 +50,27 @@ const polyfill = require('credential-handler-polyfill');
 // or
 import * as polyfill from 'credential-handler-polyfill';
 
-const MEDIATOR_ORIGIN = 'https://beta.authn.io';
-
-const mediatorUrl = MEDIATOR_ORIGIN + '/mediator?origin=' +
+const mediatorUrl = 'https://beta.authn.io/mediator?origin=' +
   encodeURIComponent(window.location.origin);
 
 const loadPolyfillPromise = polyfill.loadOnce(mediatorUrl);
 ```
 
 ### Installing a Credential Handler
+
+Once the polyfill is loaded, you can install it:
+
+```js
+const {CredentialManager, CredentialHandlers} = navigator.credentialsPolyfill;
+
+const result = await CredentialManager.requestPermission();
+if(result !== 'granted') {
+  throw new Error('Permission denied.');
+}
+
+// get credential handler registration
+const registration = await CredentialHandlers.register('/credential-handler');
+```
 
 ### Receiving a Web Credential
 

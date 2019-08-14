@@ -26,7 +26,7 @@ export async function loadOnce(mediatorUrl) {
   if(!mediatorUrl) {
     if(typeof window === 'undefined') {
       throw new Error(
-        'mediatorUrl is required, cannot use default URL with location.origin');
+        '"mediatorUrl" is required; cannot use default URL with "location.origin".');
     }
     mediatorUrl = DEFAULT_MEDIATOR + '?origin=' +
       encodeURIComponent(window.location.origin);

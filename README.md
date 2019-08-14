@@ -27,7 +27,7 @@ The Credential Handler API was created to achieve the following goals:
 
 #### Goal 1: Make using credentials and keys easier and safer for users
 
-Key management and credential management is becoming fundamental to a new
+Key management and credential management are becoming fundamental to a new
 generation of web applications. Users need the ability to safely store and
 manage credentials (from diplomas to coupons) and cryptographic keys (for
 digital signatures, passwordless logins, secure encryption and more), and
@@ -56,6 +56,16 @@ API allows developers to:
 TODO: Explain the importance of polyfills for driving innovation and standards
 for the Web platform. (a.k.a, many of your favorite Web platform features
 probably started out as a polyfill.) 
+
+#### Relationship to Other Standards
+
+TODO: Add section explaining how CHAPI interacts with existing complementary
+web standards:
+
+* WebAuthn and FIDO
+* Credential Management Level 1 API
+* Verifiable Credentials
+* DIDs
 
 ## Demo
 

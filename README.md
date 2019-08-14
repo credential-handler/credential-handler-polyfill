@@ -66,6 +66,10 @@ web standards:
 * Credential Management Level 1 API
 * Verifiable Credentials
 * DIDs
+* using CHAPI to solve the [NASCAR problem](https://indieweb.org/NASCAR_problem), 
+  to streamline and preserve Web app state during 
+  [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) logins
+  and OAuth2 interactions
 
 ## Demo
 
@@ -116,7 +120,8 @@ A web app (a Relying Party or **verifier**) can request a credential using
 pushes a button on a page that requires identity attributes or authentication.
 
 ```js
-const webCredential = await navigator.credentials.get({web: {}});
+const credentialQuery = {web: {}}; // TODO: Update to something more useful
+const webCredential = await navigator.credentials.get(credentialQuery);
 
 if(!webCredential) {
   console.log('no credentials received');
@@ -129,11 +134,24 @@ A web app (for example, a credential **issuer** such as a university or
 institution) can ask to _store_ a credential during a user gesture event, for example when the user pushes 
 a button to receive a credential.
 
+TODO: Expand on [`WebCredential` object](#webcredential)
+
 ```js
-const result = await navigator.credentials.store({web: {}});
+const result = await navigator.credentials.store(webCredential);
 if(!result) {
   console.log('store credential operation did not succeed');
 }
+```
+
+#### WebCredential
+
+TODO: Discuss creating and receiving WebCredential instances
+
+```js
+const webCredential = new WebCredential('VerifiableCredential', {
+  '@context': 'https://w3id.org/credentials/v1',
+  ...credential
+});
 ```
 
 #### Handling Empty Results

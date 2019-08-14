@@ -1,6 +1,6 @@
 {
   "name": "credential-handler-polyfill",
-  "version": "1.0.5-0",
+  "version": "2.0.0",
   "description": "Credential Handler API Polyfill",
   "main": "index.js",
   "repository": {

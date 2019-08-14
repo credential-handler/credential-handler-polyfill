@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [Background](#background)
+- [Demo](#demo)
 - [Install](#install)
 - [Usage](#usage)
 - [Security](#security)
@@ -12,11 +12,14 @@
 - [Commercial Support](#commercial-support)
 - [License](#license)
 
-## Background
+## Demo
+
+Visit https://digitalbazaar.github.io/credential-handler-polyfill/demo/ 
+for an idea of what the basic handler UI looks like.
 
 ## Install
 
-#### Including `credential-handler-api` in browser scripts
+### Including `credential-handler-api` in browser scripts
 
 Adding the following `<script>` makes the `navigator.credentials` object
 available to your code.
@@ -25,7 +28,7 @@ available to your code.
 <script src="https://unpkg.com/credential-handler-polyfill@2.0.0/dist/credential-handler-polyfill.min.js"></script>
 ```
 
-#### Installing using Node.js (for development)
+### Installing using Node.js (for development)
 
 To install as a dependency of another project, add this to your `package.json`:
 

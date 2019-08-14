@@ -15,33 +15,20 @@ import {CredentialsContainer} from './CredentialsContainer.js';
 import {PermissionManager} from './PermissionManager.js';
 import {WebCredential} from './WebCredential.js';
 
-const DEFAULT_MEDIATOR = 'https://beta.authn.io/mediator';
+const DEFAULT_MEDIATOR = 'https://authn.io/mediator' + '?origin=' +
+  encodeURIComponent(window.location.origin);
 
 let loaded;
-export async function loadOnce(mediatorUrl) {
+export async function loadOnce(mediatorUrl = DEFAULT_MEDIATOR) {
   if(loaded) {
     return loaded;
-  }
-
-  if(!mediatorUrl) {
-    if(typeof window === 'undefined') {
-      throw new Error(
-        '"mediatorUrl" is required; cannot use default URL with "location.origin".');
-    }
-    mediatorUrl = DEFAULT_MEDIATOR + '?origin=' +
-      encodeURIComponent(window.location.origin);
   }
 
   loaded = true;
   return load(mediatorUrl);
 }
 
-export async function load(mediatorUrl) {
-  if(!mediatorUrl) {
-    mediatorUrl = 'https://credential.mediator.dev:15443/mediator?origin=' +
-      encodeURIComponent(window.location.origin);
-  }
-
+export async function load(mediatorUrl = DEFAULT_MEDIATOR) {
   const appContext = new rpc.WebAppContext();
   const injector = appContext.createWindow(mediatorUrl, {
     className: 'credential-mediator',

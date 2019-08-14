@@ -22,7 +22,7 @@ Adding the following `<script>` makes the `navigator.credentials` object
 available to your code.
 
 ```html
-<script src="https://unpkg.com/credential-handler-polyfill@1.0.4/dist/credential-handler-polyfill.min.js"></script>
+<script src="https://unpkg.com/credential-handler-polyfill@2.0.0/dist/credential-handler-polyfill.min.js"></script>
 ```
 
 #### Installing using Node.js (for development)
@@ -30,7 +30,7 @@ available to your code.
 To install as a dependency of another project, add this to your `package.json`:
 
 ```
-"credential-handler-polyfill": "^1.0.0"
+"credential-handler-polyfill": "^2.0.0"
 ```
 
 If you plan to develop or modify this polyfill, install it from Github:
@@ -46,14 +46,13 @@ npm install
 ### Loading the Polyfill
 
 ```js
-const polyfill = require('credential-handler-polyfill');
-// or
 import * as polyfill from 'credential-handler-polyfill';
 
 const mediatorUrl = 'https://beta.authn.io/mediator?origin=' +
   encodeURIComponent(window.location.origin);
 
-const loadPolyfillPromise = polyfill.loadOnce(mediatorUrl);
+await polyfill.loadOnce(mediatorUrl);
+console.log('loaded...')
 ```
 
 ### Installing a Credential Handler

@@ -105,14 +105,14 @@ console.log('Ready to work with credentials!');
 
 A web application can `get()` and `store()` credentials without knowing anything
 about the user's wallet. This is intentional; for privacy reasons, the client
-app must not have access to any information regarding which wallets or 
+app must not be able to query any information (without user consent) about which wallets or 
 credential handlers a user may have installed (otherwise, fingerprinting and
 other attacks would be possible).
 
 #### `get()`
 
 A web app (a Relying Party or **verifier**) can request a credential using
-`credentials.get()`, for example when the user 
+`credentials.get()` during a user gesture event, for example when the user 
 pushes a button on a page that requires identity attributes or authentication.
 
 ```js
@@ -126,7 +126,7 @@ if(!webCredential) {
 #### `store()`
 
 A web app (for example, a credential **issuer** such as a university or 
-institution) can ask to _store_ a credential, for example when the user pushes 
+institution) can ask to _store_ a credential during a user gesture event, for example when the user pushes 
 a button to receive a credential.
 
 ```js
@@ -157,7 +157,7 @@ Typical ways of handling empty results may include:
 
 * Invite the user to install a wallet if they haven't already (and provide a 
   link/recommendation, perhaps in a popup window)
-* (In case the user denied the request) Invite the user to re-try the operation,
+* (In case the user denied the request) Invite the user to retry the operation,
   after explaining why you're asking to get or store the credential
 * (If possible/applicable) Provide an alternate path to the user (the conceptual 
   equivalent of allowing "Guest Checkout" if the user has refused to register 

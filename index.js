@@ -15,11 +15,23 @@ import {CredentialsContainer} from './CredentialsContainer.js';
 import {PermissionManager} from './PermissionManager.js';
 import {WebCredential} from './WebCredential.js';
 
+const DEFAULT_MEDIATOR = 'https://beta.authn.io/mediator';
+
 let loaded;
 export async function loadOnce(mediatorUrl) {
   if(loaded) {
     return loaded;
   }
+
+  if(!mediatorUrl) {
+    if (typeof window === 'undefined') {
+      throw new Error(
+        'mediatorUrl is required, cannot use default URL with location.origin');
+    }
+    mediatorUrl = DEFAULT_MEDIATOR + '?origin=' +
+      encodeURIComponent(window.location.origin);
+  }
+
   loaded = true;
   return load(mediatorUrl);
 }

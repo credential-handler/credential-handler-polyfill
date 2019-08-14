@@ -4,7 +4,7 @@ module.exports = {
   },
   output: {
     filename: '[name].min.js',
-    library: '[name]',
-    libraryTarget: 'amd'
+    library: 'credentialHandlerPolyfill',
+    libraryTarget: 'umd'
   }
 };

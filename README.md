@@ -18,21 +18,19 @@
 Credential Handler API (CHAPI) is:
 
 * a browser API
-* lets web apps securely `get()` and `store()` credentials and keys, without
+* lets web apps securely `get()` and `store()` credentials, without
   having to roll their own wallet infrastructure
 * provides a secure _trusted UI_ for users to manage those credentials
 * gives users ability to choose service providers for wallets
 
 The Credential Handler API was created to achieve the following goals:
 
-#### Goal 1: Make using credentials and keys easier and safer for users
+#### Goal 1: Make using credentials easier and safer for users
 
-Key management and credential management are becoming fundamental to a new
-generation of web applications. Users need the ability to safely store and
-manage credentials (from diplomas to coupons) and cryptographic keys (for
-digital signatures, passwordless logins, secure encryption and more), and
-they need a consistent trusted UI (aka "trusted chrome" in industry parlance) to
-do that.
+Credential management are becoming fundamental to a new generation of web 
+applications. Users need the ability to safely store and manage credentials 
+(from diplomas to coupons), and they need a consistent trusted UI (aka "trusted 
+chrome" in industry parlance) to do that.
 
 #### Goal 2: Give users ability to choose their wallet provider
 
@@ -46,7 +44,6 @@ Web app developers should not be required to roll their own wallet
 infrastructure for every application. Using a standard credential management
 API allows developers to:
 
-* Implement secure user account and login systems
 * Minimize the risk of data leaks and identity theft
 * Participate in the [Verifiable Credentials](https://w3c.github.io/vc-data-model/) 
   ecosystem  
@@ -62,7 +59,6 @@ probably started out as a polyfill.)
 TODO: Add section explaining how CHAPI interacts with existing complementary
 web standards:
 
-* WebAuthn and FIDO
 * Credential Management Level 1 API
 * Verifiable Credentials
 * DIDs
@@ -80,7 +76,7 @@ for an idea of what the basic handler UI looks like.
 
 ### Loading the Polyfill
 
-Before you can get and store credentials or keys, you need to load the
+Before you can get and store credentials, you need to load the
 polyfill library.
 
 If you're [loading the polyfill from a `<script>` 
@@ -174,7 +170,7 @@ the operation is required and things come to a halt without it.
 Typical ways of handling empty results may include:
 
 * Invite the user to install a wallet if they haven't already (and provide a 
-  link/recommendation, perhaps in a popup window)
+  link/recommendation)
 * (In case the user denied the request) Invite the user to retry the operation,
   after explaining why you're asking to get or store the credential
 * (If possible/applicable) Provide an alternate path to the user (the conceptual 
@@ -193,7 +189,7 @@ user for permission to install, to activate the handler, and so on.
 #### Requesting Permission and Registering the Handler
 
 ```js
-const {CredentialManager, CredentialHandlers} = navigator.credentialsPolyfill;
+const {CredentialManager, CredentialHandlers} = polyfill;
 
 const result = await CredentialManager.requestPermission();
 if(result !== 'granted') {

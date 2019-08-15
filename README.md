@@ -27,7 +27,7 @@ The Credential Handler API was created to achieve the following goals:
 
 #### Goal 1: Make using credentials easier and safer for users
 
-Credential management are becoming fundamental to a new generation of web 
+Credential management is becoming fundamental to a new generation of web 
 applications. Users need the ability to safely store and manage credentials 
 (from diplomas to coupons), and they need a consistent trusted UI (aka "trusted 
 chrome" in industry parlance) to do that.

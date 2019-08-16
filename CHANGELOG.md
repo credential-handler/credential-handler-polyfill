@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 2.1.0 - 2019-08-16
+
+### Added
+- Add a default mediator url for the polyfill.
+
 ## 2.0.0 - 2019-08-13
 
 ### Changed

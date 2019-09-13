@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Minimal Dev Wallet</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Compiled and minified Materialize JS/CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Credential Handler API Polyfill-->
+  <script src="https://unpkg.com/credential-handler-polyfill@2.1.0/dist/credential-handler-polyfill.min.js"></script>
+  <script src="https://unpkg.com/web-credential-handler@1.0.0/dist/web-credential-handler.min.js"></script>
+
+  <script src="./install.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="card-panel">
+    <h5>Minimal Credential Handler Wallet</h5>
+    <span id="loadingText" class="blue-text text-darken-2">Loading polyfill</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card-panel">
+    <form id="storeForm">
+      <div class="row">
+        <div class="col s5">
+          <h5>Store Credential</h5>
+
+          <div class="input-field">
+            <input placeholder="VerifiableCredential" id="credType" type="text" value="VerifiableCredential">
+            <label for="credType">Credential Type</label>
+          </div>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s5">
+          <div class="row">
+            <h5>Get Credential</h5>
+
+            <p>Enter credential query.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s5">
+          <div class="input-field">
+          <textarea id="credStoreText" style="height: 15em;">
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "https://example.com/credentials/1872",
+  "type": ["VerifiableCredential", "AlumniCredential"],
+  "issuanceDate": "2010-01-01T19:23:24Z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "alumniOf": {
+      "name": "Example University"
+    }
+  }
+}
+              </textarea>
+
+            <a class="waves-effect waves-light btn" id="storeButton">Store</a>
+          </div>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s5">
+          <div class="input-field">
+          <textarea id="credGetText" style="height: 15em;">
+  {
+    "web": {
+      "VerifiablePresentation": {
+        "query": [{
+          "type": "QueryByExample",
+          "credentialQuery": {
+            "example": {
+              "@context": [
+                "https://w3id.org/credentials/v1",
+                "https://www.w3.org/2018/credentials/examples/v1"
+              ],
+              "type": ["VerifiableCredential", "AlumniCredential"],
+              "credentialSubject": {
+                "id": "did:example:ebfeb1f712ebc6f1c276e12ec21"
+              }
+            }
+          }
+        }]
+      }
+    }
+  }
+            </textarea>
+
+            <a class="waves-effect waves-light btn" id="getButton">Get</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s5">
+          Results of store():
+
+          <pre id="storeResults"></pre>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s5">
+          Results of get():
+
+          <pre id="getResults"></pre>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  console.log('Installing...')
+  installHandler()
+    .catch(e => console.error('Error in installHandler:', e));
+
+  async function onClickGet() {
+    document.getElementById('getResults').innerHTML = ''; // clear results
+    const credentialQuery = JSON.parse(document.getElementById('credGetText').value);
+
+    const result = await navigator.credentials.get(credentialQuery);
+
+    console.log('Result of get() request:', result);
+
+    if(!result) {
+      document.getElementById('getResults').innerHTML = 'null result';
+      return;
+    }
+
+    document.getElementById('getResults').innerHTML = JSON.stringify(result.data, null, 2);
+  }
+
+  async function onClickStore() {
+    document.getElementById('storeResults').innerHTML = ''; // clear results
+    const credentialToStore = document.getElementById('credStoreText').value;
+    const credentialType = document.getElementById('credType').value;
+
+    // Construct the WebCredential wrapper around the credential to be stored
+    const webCredentialWrapper = new WebCredential(credentialType, credentialToStore);
+
+    // Use Credential Handler API to store
+    result = await navigator.credentials.store(webCredentialWrapper);
+
+    console.log('Result of store() request:', result);
+
+    if(!result) {
+      document.getElementById('storeResults').innerHTML = 'null result';
+      return;
+    }
+
+    document.getElementById('storeResults').innerHTML = JSON.stringify(result.data, null, 2);
+  }
+
+  ready(() => {
+    document.getElementById('getButton').addEventListener('click', onClickGet);
+    document.getElementById('storeButton').addEventListener('click', onClickStore);
+  })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

@@ -8,9 +8,10 @@ const workerUrl = '/demo/worker.html'
 
 async function installHandler() {
   console.log('Loading polyfill...');
-
+  const mediatorSite = 'https://beta.authn.io/mediator?origin=' +
+    encodeURIComponent(window.location.origin);
   try {
-    await credentialHandlerPolyfill.loadOnce();
+    await credentialHandlerPolyfill.loadOnce(mediatorSite);
   } catch(e) {
     console.error('Error in loadOnce:', e);
   }

@@ -4,7 +4,7 @@
 /* global navigator, window, document */
 'use strict';
 
-const workerUrl = 'worker.html'
+const workerUrl = 'https://digitalbazaar.github.io/credential-handler-polyfill/demo/worker.html'
 
 async function installHandler() {
   console.log('Loading polyfill...');

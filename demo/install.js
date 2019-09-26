@@ -4,7 +4,7 @@
 /* global navigator, window, document */
 'use strict';
 
-const workerUrl = '/demo/worker.html'
+const workerUrl = 'worker.html'
 
 async function installHandler() {
   console.log('Loading polyfill...');

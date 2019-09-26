@@ -19,13 +19,13 @@
     console.log('Worker Polyfill loaded.');
 
     return WebCredentialHandler.activateHandler({
-      async get(event) {
-        console.log('WCH: Received get() event:', event);
-        return {type: 'redirect', url: '/demo/wallet-ui-get.html'};
-      },
+      // async get(event) {
+      //   console.log('WCH: Received get() event:', event);
+      //   return {type: 'redirect', url: '/demo/wallet-ui-receive.html'};
+      // },
       async store(event) {
         console.log('WCH: Received store() event:', event);
-        return {type: 'redirect', url: '/demo/wallet-ui-store.html'};
+        return {type: 'redirect', url: '/demo/wallet-ui-receive.html'};
       }
     })
   }

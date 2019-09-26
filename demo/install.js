@@ -24,7 +24,7 @@ async function installHandler() {
   await registration.credentialManager.hints.set(
     'test', {
       name: 'TestUser',
-      enabledTypes: ['VerifiablePresentation', 'VerifiableCredential']
+      enabledTypes: ['VerifiablePresentation', 'VerifiableCredential', 'AlumniCredential']
     });
 }
 

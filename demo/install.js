@@ -16,7 +16,7 @@ async function installHandler() {
   }
 
   console.log('Polyfill loaded.');
-  document.getElementById('loadingText').innerHTML = 'Polyfill loaded.';
+  // document.getElementById('loadingText').innerHTML = 'Polyfill loaded.';
 
   const registration = await WebCredentialHandler
     .installHandler({url: workerUrl})

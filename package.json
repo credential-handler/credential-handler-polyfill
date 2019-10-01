@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/digitalbazaar/credential-handler-polyfill",
   "dependencies": {
-    "web-request-rpc": "^1.1.0"
+    "web-request-rpc": "^1.1.5"
   },
   "bedrock": {
     "browserDependencies": [
@@ -26,8 +26,8 @@
     ]
   },
   "devDependencies": {
-    "webpack": "4.10.2",
-    "webpack-cli": "^3.3.6"
+    "webpack": "^4.10.2",
+    "webpack-cli": "^3.3.9"
   },
   "files": [
     "dist/*.js",

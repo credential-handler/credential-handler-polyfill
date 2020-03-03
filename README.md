@@ -104,11 +104,47 @@ if(!result) {
 
 TODO: Discuss creating and receiving WebCredential instances
 
+When working with VerifiableCredentials (just one type of credential
+supported by CHAPI), a VerifiablePresentation is used to both store or
+present VerifiableCredentials. When storing a VerifiableCredential, the
+VerifiablePresentation does not need to be signed.
+
 ```js
-const webCredential = new WebCredential('VerifiableCredential', {
-  '@context': 'https://w3id.org/credentials/v1',
-  ...credential
-});
+const presentation = {
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1"
+  ],
+  "type": "VerifiablePresentation",
+  "verifiableCredential": [{
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://www.w3.org/2018/credentials/examples/v1"
+    ],
+    "id": "http://example.edu/credentials/1872",
+    "type": ["VerifiableCredential", "AlumniCredential"],
+    "issuer": "https://example.edu/issuers/565049",
+    "issuanceDate": "2010-01-01T19:73:24Z",
+    "credentialSubject": {
+      "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+      "alumniOf": {
+        "id": "did:example:c276e12ec21ebfeb1f712ebc6f1",
+        "name": {
+          "value": "Example University",
+          "lang": "en"
+        }
+      }
+    },
+    "proof": {
+      "type": "RsaSignature2018",
+      "created": "2017-06-18T21:19:10Z",
+      "proofPurpose": "assertionMethod",
+      "verificationMethod": "https://example.edu/issuers/keys/1",
+      "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM"
+    }
+  }]
+};
+
+const webCredential = new WebCredential('VerifiablePresentation', presentation);
 ```
 
 #### Handling Empty Results

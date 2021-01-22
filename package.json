@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/digitalbazaar/credential-handler-polyfill",
   "dependencies": {
-    "web-request-rpc": "^1.1.6"
+    "web-request-rpc": "^1.1.7"
   },
   "bedrock": {
     "browserDependencies": [

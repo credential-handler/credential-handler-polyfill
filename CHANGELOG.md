@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 2.2.0 - 2021-05-xx
+## 2.2.0 - 2021-05-16
 
 ### Added
 - Add ability to send `recommendedHandlerOrigins`. This property can be used

@@ -1,7 +1,7 @@
 /*!
  * Credential Handler API Polyfill.
  *
- * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2021 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator, window */
 'use strict';
@@ -17,6 +17,13 @@ import {WebCredential} from './WebCredential.js';
 
 const DEFAULT_MEDIATOR = 'https://authn.io/mediator' + '?origin=' +
   encodeURIComponent(window.location.origin);
+
+// export classes for testing/TypeScript
+export {
+  CredentialHandler,
+  CredentialManager,
+  WebCredential
+};
 
 let loaded;
 export async function loadOnce(mediatorUrl = DEFAULT_MEDIATOR) {

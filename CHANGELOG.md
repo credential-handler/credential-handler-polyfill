@@ -1,18 +1,25 @@
 # credential-handler-polyfill ChangeLog
 
+## 2.2.0 - 2021-05-xx
+
+### Added
+- Add ability to send `recommendedHandlerOrigins`. This property can be used
+  with requests or with a `WebCredential` to specify an array of credential
+  handler origins (up to 3 will be accepted by the mediator) to recommend.
+
 ## 2.1.3 - 2021-01-22
 
-## Changed
+### Changed
 - Update dependencies.
 
 ## 2.1.2 - 2021-01-22
 
-## Changed
+### Changed
 - Update dependencies.
 
 ## 2.1.1 - 2019-10-01
 
-## Changed
+### Changed
 - Update dependencies.
 
 ## 2.1.0 - 2019-08-16

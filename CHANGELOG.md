@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 2.2.1 - 2021-05-xx
+
+### Fixed
+- Fix options passed to `WebCredential`.
+
 ## 2.2.0 - 2021-05-16
 
 ### Added

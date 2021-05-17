@@ -4,16 +4,14 @@
  *
  * Copyright (c) 2017-2021 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
 export class WebCredential {
-  constructor(dataType, data, recommendedHandlerOrigins = []) {
+  constructor(dataType, data, {recommendedHandlerOrigins = []} = {}) {
     if(typeof dataType !== 'string') {
       throw new TypeError('"dataType" must be a string.');
     }
     this.type = 'web';
     this.dataType = dataType;
     this.data = data;
-    this.recommendedHandlerOrigins = recommendedHandlerOrigins;
+    this.options = {recommendedHandlerOrigins};
   }
 }

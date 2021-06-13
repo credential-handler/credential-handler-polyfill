@@ -2,59 +2,25 @@
 
 > [Credential Handler API](https://w3c-ccg.github.io/credential-handler-api/) (CHAPI) polyfill for browsers
 
-## Table of Contents
-
-- [Features](#features)
-- [Demo](#demo)
-- [Background](#background)
-- [Usage](#usage)
-- [Install](#install)
-- [Security](#security)
-- [Contribute](#contribute)
-- [Commercial Support](#commercial-support)
-- [License](#license)
-
-## Features
-
 The CHAPI polyfill provides a number of features that enable the issuance,
 holding, presentation, and general management of Verifiable Credentials,
 Authorization Capabilities, and a variety of other cross-origin credentials.
 
-### Add Credential Handler
-
-![Animation showing addition of a Credential Handler](https://user-images.githubusercontent.com/108611/121816921-6b9d8c00-cc4c-11eb-940f-66881582b7ca.gif)
-
-### Select Credential Handler
-
 ![Animation showing selection of Credential Handler](https://user-images.githubusercontent.com/108611/121816947-8ec83b80-cc4c-11eb-8592-96b19f7b0b07.gif)
 
-### Store Credentials
+See the [feature videos](#features) for more animations of CHAPI in action.
 
-![Animation showing storage of Credentials](https://user-images.githubusercontent.com/108611/121817547-0e0b3e80-cc50-11eb-9c6e-99647ae7f61d.gif)
+## Table of Contents
 
-### Request Credentials
-
-![Animation showing request for a Credential](https://user-images.githubusercontent.com/108611/121817634-925dc180-cc50-11eb-9f80-c01b4ac97233.gif)
-
-### Hide Credential Handler
-
-![Animation showing hiding of Credential Handler](https://user-images.githubusercontent.com/108611/121817058-1615af00-cc4d-11eb-959e-139a32137fd4.gif)
-
-### Just-In-Time Install of Credential Handler
-
-![Animation showing Just-In-Time Addition of Credential Handler](https://user-images.githubusercontent.com/108611/121817000-d3ec6d80-cc4c-11eb-89ad-397b2bf85773.gif)
-
-### Works on Mobile
-
-![Animation showing Credential Handler working on Mobile](https://user-images.githubusercontent.com/108611/121817969-6b07f400-cc52-11eb-8fc0-bb27aab88e91.gif)
-
-## Demo
-
-For an idea of what a minimal CHAPI implementation looks like, visit:
-
-1. https://chapi-demo-wallet.digitalbazaar.com/
-2. https://chapi-demo-issuer.digitalbazaar.com/
-2. https://chapi-demo-verifier.digitalbazaar.com/
+- [Background](#background)
+- [Demo](#demo)
+- [Usage](#usage)
+- [Install](#install)
+- [Feature Videos](#features)
+- [Security](#security)
+- [Contribute](#contribute)
+- [Commercial Support](#commercial-support)
+- [License](#license)
 
 ## Background
 
@@ -67,6 +33,14 @@ Credential Handler API (CHAPI) is:
 * gives users ability to choose service providers for wallets
 
 Read more: [CHAPI Motivation and Background](docs/motivation-and-background.md).
+
+## Demo
+
+Take a look at the following websites to try out a minimal CHAPI implementation:
+
+1. https://chapi-demo-wallet.digitalbazaar.com/
+2. https://chapi-demo-issuer.digitalbazaar.com/
+2. https://chapi-demo-verifier.digitalbazaar.com/
 
 ## Usage
 
@@ -258,6 +232,74 @@ git clone https://github.com/digitalbazaar/credential-handler-polyfill.git
 cd credential-handler-polyfill
 npm install
 ```
+
+## Features
+
+The CHAPI polyfill provides a number of features that enable the issuance,
+holding, presentation, and general management of Verifiable Credentials,
+Authorization Capabilities, and a variety of other cross-origin credentials.
+
+### Add Credential Handler
+
+You can add a Credential Handler by calling the
+`CredentialHandlers.register()` API. This call will ensure that the individual
+using the browser explicitly confirms that they want to use the website as
+a credential handler.
+
+![Animation showing addition of a Credential Handler](https://user-images.githubusercontent.com/108611/121816921-6b9d8c00-cc4c-11eb-940f-66881582b7ca.gif)
+
+### Store Credentials
+
+CHAPI supports storing credentials via the `navigator.credentials.store()` API.
+Storage of credentials prompts the individual using the browser to confirm
+that they want to store the credential in their digital wallet.
+
+![Animation showing storage of Credentials](https://user-images.githubusercontent.com/108611/121817547-0e0b3e80-cc50-11eb-9c6e-99647ae7f61d.gif)
+
+### Present Credentials
+
+CHAPI supports the presentation of credentials via the
+`navigator.credentials.get()` API. CHAPI is agnostic to the presentation
+request query language and passes the query directly through to the credential
+handler. When presenting credentials, the individual is shown what they will
+be sharing and must provide explicit consent before the credentials are
+shared with the requesting party.
+
+![Animation showing request for a Credential](https://user-images.githubusercontent.com/108611/121817634-925dc180-cc50-11eb-9f80-c01b4ac97233.gif)
+
+### Select Credential Handler
+
+Multiple credential handlers may be registered. If an individual has multiple
+credential handlers registered, they are given the option of selecting between
+the handlers or setting one as the default on a per-website basis.
+
+![Animation showing selection of Credential Handler](https://user-images.githubusercontent.com/108611/121816947-8ec83b80-cc4c-11eb-8592-96b19f7b0b07.gif)
+
+### Hide Credential Handler
+
+When an individual desires to not use a credential handler anymore, they can
+hide that credential handler via the interface. If they accidentally click
+the hide button, they have several seconds to undo the action. Credential
+Handlers that are hidden can be added again by going to the registration
+website.
+
+![Animation showing hiding of Credential Handler](https://user-images.githubusercontent.com/108611/121817058-1615af00-cc4d-11eb-959e-139a32137fd4.gif)
+
+### Just-In-Time Install of Credential Handler
+
+If an individual has no credential handlers registered, the website that
+uses CHAPI can suggest up to three credential handlers that can be
+"just in time" installed so that the original storage operation can
+complete.
+
+![Animation showing Just-In-Time Addition of Credential Handler](https://user-images.githubusercontent.com/108611/121817000-d3ec6d80-cc4c-11eb-89ad-397b2bf85773.gif)
+
+### Works on Mobile
+
+CHAPI is designed to run on desktop, tablet, and mobile form factors. The
+interface is responsive to provide the best experience for each form factor.
+
+![Animation showing Credential Handler working on Mobile](https://user-images.githubusercontent.com/108611/121817969-6b07f400-cc52-11eb-8fc0-bb27aab88e91.gif)
 
 ## Security
 

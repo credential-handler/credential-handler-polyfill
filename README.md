@@ -4,6 +4,7 @@
 
 ## Table of Contents
 
+- [Features](#features)
 - [Demo](#demo)
 - [Background](#background)
 - [Usage](#usage)
@@ -12,6 +13,40 @@
 - [Contribute](#contribute)
 - [Commercial Support](#commercial-support)
 - [License](#license)
+
+## Features
+
+The CHAPI polyfill provides a number of features that enable the issuance,
+holding, presentation, and general management of Verifiable Credentials,
+Authorization Capabilities, and a variety of other cross-origin credentials.
+
+### Add Credential Handler
+
+![Animation showing addition of a Credential Handler](https://user-images.githubusercontent.com/108611/121816921-6b9d8c00-cc4c-11eb-940f-66881582b7ca.gif)
+
+### Select Credential Handler
+
+![Animation showing selection of Credential Handler](https://user-images.githubusercontent.com/108611/121816947-8ec83b80-cc4c-11eb-8592-96b19f7b0b07.gif)
+
+### Store Credentials
+
+![Animation showing storage of Credentials](https://user-images.githubusercontent.com/108611/121817547-0e0b3e80-cc50-11eb-9c6e-99647ae7f61d.gif)
+
+### Request Credentials
+
+![Animation showing request for a Credential](https://user-images.githubusercontent.com/108611/121817634-925dc180-cc50-11eb-9f80-c01b4ac97233.gif)
+
+### Hide Credential Handler
+
+![Animation showing hiding of Credential Handler](https://user-images.githubusercontent.com/108611/121817058-1615af00-cc4d-11eb-959e-139a32137fd4.gif)
+
+### Just-In-Time Install of Credential Handler
+
+![Animation showing Just-In-Time Addition of Credential Handler](https://user-images.githubusercontent.com/108611/121817000-d3ec6d80-cc4c-11eb-89ad-397b2bf85773.gif)
+
+### Works on Mobile
+
+![Animation showing Credential Handler working on Mobile](https://user-images.githubusercontent.com/108611/121817969-6b07f400-cc52-11eb-8fc0-bb27aab88e91.gif)
 
 ## Demo
 
@@ -40,7 +75,7 @@ Read more: [CHAPI Motivation and Background](docs/motivation-and-background.md).
 Before you can get and store credentials, you need to load the
 polyfill library.
 
-If you're [loading the polyfill from a `<script>` 
+If you're [loading the polyfill from a `<script>`
 tag](#including-credential-handler-api-in-browser-scripts), you will have
 access to the `navigator.credentials` and `credentialHandlerPolyfill` globals.
 
@@ -66,14 +101,14 @@ console.log('Ready to work with credentials!');
 
 A web application can `get()` and `store()` credentials without knowing anything
 about the user's wallet. This is intentional; for privacy reasons, the client
-app must not be able to query any information (without user consent) about which wallets or 
+app must not be able to query any information (without user consent) about which wallets or
 credential handlers a user may have installed (otherwise, fingerprinting and
 other attacks would be possible).
 
 #### `get()`
 
 A web app (a Relying Party or **verifier**) can request a credential using
-`credentials.get()` during a user gesture event, for example when the user 
+`credentials.get()` during a user gesture event, for example when the user
 pushes a button on a page that requires identity attributes or authentication.
 
 ```js
@@ -87,8 +122,8 @@ if(!webCredential) {
 
 #### `store()`
 
-A web app (for example, a credential **issuer** such as a university or 
-institution) can ask to _store_ a credential during a user gesture event, for example when the user pushes 
+A web app (for example, a credential **issuer** such as a university or
+institution) can ask to _store_ a credential during a user gesture event, for example when the user pushes
 a button to receive a credential.
 
 TODO: Expand on [`WebCredential` object](#webcredential)
@@ -155,7 +190,7 @@ of two things:
 1. The user has denied or canceled the request
 2. The user does not have a wallet (credential handler service) installed
 
-As mentioned previously, there is (intentionally) _no way for the client to know 
+As mentioned previously, there is (intentionally) _no way for the client to know
 which_ of these is the case.
 
 As an app developer, the recommended way to handle this situation depends on
@@ -166,12 +201,12 @@ the operation is required and things come to a halt without it.
 
 Typical ways of handling empty results may include:
 
-* Invite the user to install a wallet if they haven't already (and provide a 
+* Invite the user to install a wallet if they haven't already (and provide a
   link/recommendation)
 * (In case the user denied the request) Invite the user to retry the operation,
   after explaining why you're asking to get or store the credential
-* (If possible/applicable) Provide an alternate path to the user (the conceptual 
-  equivalent of allowing "Guest Checkout" if the user has refused to register 
+* (If possible/applicable) Provide an alternate path to the user (the conceptual
+  equivalent of allowing "Guest Checkout" if the user has refused to register
   for an ecommerce account).
 
 ### Advanced Operations for Wallet Providers
@@ -201,7 +236,7 @@ const registration = await CredentialHandlers.register('/credential-handler');
 
 ### Including Credential Handler API in browser scripts
 
-Adding the following `<script>` makes the `navigator.credentials`  and 
+Adding the following `<script>` makes the `navigator.credentials`  and
 `credentialHandlerPolyfill` globals available to your code.
 
 ```html
@@ -226,11 +261,11 @@ npm install
 
 ## Security
 
-This polyfill makes use of a UI that emulates secure browser UI (also known as 
-"browser chrome"). This polyfill UI is an emulation and IS NOT implemented by 
-the browser. Support for the 
-[Credential Handler API](https://w3c-ccg.github.io/credential-handler-api/) 
-could make this UI (or most likely a much better one!) a reality in browsers in 
+This polyfill makes use of a UI that emulates secure browser UI (also known as
+"browser chrome"). This polyfill UI is an emulation and IS NOT implemented by
+the browser. Support for the
+[Credential Handler API](https://w3c-ccg.github.io/credential-handler-api/)
+could make this UI (or most likely a much better one!) a reality in browsers in
 the future.
 
 ## Contribute

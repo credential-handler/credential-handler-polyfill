@@ -1,7 +1,7 @@
 /*!
  * Credential Handler API Polyfill.
  *
- * Copyright (c) 2017-2021 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator, window */
 'use strict';
@@ -15,8 +15,7 @@ import {CredentialsContainer} from './CredentialsContainer.js';
 import {PermissionManager} from './PermissionManager.js';
 import {WebCredential} from './WebCredential.js';
 
-const DEFAULT_MEDIATOR = 'https://authn.io/mediator' + '?origin=' +
-  encodeURIComponent(window.location.origin);
+const DEFAULT_MEDIATOR_ORIGIN = 'https://authn.io';
 
 // export classes for testing/TypeScript
 export {
@@ -26,16 +25,29 @@ export {
 };
 
 let loaded;
-export async function loadOnce(mediatorUrl = DEFAULT_MEDIATOR) {
+export async function loadOnce(options) {
   if(loaded) {
     return loaded;
   }
 
   loaded = true;
-  return load(mediatorUrl);
+  return load(options);
 }
 
-export async function load(mediatorUrl = DEFAULT_MEDIATOR) {
+export async function load(options = {origin: DEFAULT_MEDIATOR_ORIGIN}) {
+  // backwards compatibility (`options` used to be a string for expressing
+  // the full mediator URL)
+  let mediatorUrl;
+  if(typeof options === 'string') {
+    mediatorUrl = options;
+  } else if(options && typeof options === 'object' &&
+    typeof options.origin === 'string') {
+    mediatorUrl = `${origin}/mediator`;
+  } else {
+    throw new Error(
+      '"options.origin" must be a string express the origin of the mediator.');
+  }
+
   const appContext = new rpc.WebAppContext();
   const injector = appContext.createWindow(mediatorUrl, {
     className: 'credential-mediator',

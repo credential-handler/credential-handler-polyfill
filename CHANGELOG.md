@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 2.3.0 - 2022-01-xx
+
+### Added
+- Add option to pass `mediatorOrigin` as an option to load functions.
+
 ## 2.2.1 - 2021-05-16
 
 ### Fixed

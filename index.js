@@ -34,18 +34,21 @@ export async function loadOnce(options) {
   return load(options);
 }
 
-export async function load(options = {origin: DEFAULT_MEDIATOR_ORIGIN}) {
+export async function load(options = {
+  mediatorOrigin: DEFAULT_MEDIATOR_ORIGIN
+}) {
   // backwards compatibility (`options` used to be a string for expressing
   // the full mediator URL)
   let mediatorUrl;
   if(typeof options === 'string') {
     mediatorUrl = options;
   } else if(options && typeof options === 'object' &&
-    typeof options.origin === 'string') {
-    mediatorUrl = `${origin}/mediator`;
+    typeof options.mediatorOrigin === 'string') {
+    mediatorUrl = `${mediatorOrigin}/mediator`;
   } else {
     throw new Error(
-      '"options.origin" must be a string express the origin of the mediator.');
+      '"options.mediatorOrigin" must be a string express the ' +
+      'origin of the mediator.');
   }
 
   const appContext = new rpc.WebAppContext();

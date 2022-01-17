@@ -47,7 +47,7 @@ export async function load(options = {
     mediatorUrl = `${options.mediatorOrigin}/mediator`;
   } else {
     throw new Error(
-      '"options.mediatorOrigin" must be a string express the ' +
+      '"options.mediatorOrigin" must be a string expressing the ' +
       'origin of the mediator.');
   }
 

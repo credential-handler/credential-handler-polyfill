@@ -31,6 +31,7 @@ export class CredentialRequestEvent /*extends Event*/ {
     // TODO: disallow more than one call
 
     // TODO: ensure `url` is to the same origin
+    console.log('open window for request event', url)
     await this._credentialHandler.show();
     const appWindow = new rpc.WebAppWindow(url, {
       className: 'credential-handler'

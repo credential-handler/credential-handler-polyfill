@@ -32,6 +32,7 @@ export class CredentialStoreEvent /*extends Event*/ {
 
     // TODO: ensure `url` is to the same origin
     await this._credentialHandler.show();
+    console.log('open window for store event', url)
     const appWindow = new rpc.WebAppWindow(url);
     appWindow.ready();
     appWindow.show();

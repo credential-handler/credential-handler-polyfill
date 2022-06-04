@@ -15,6 +15,7 @@ import {CredentialsContainer} from './CredentialsContainer.js';
 import {PermissionManager} from './PermissionManager.js';
 import {WebCredential} from './WebCredential.js';
 
+console.log('yay esm')
 const DEFAULT_MEDIATOR_ORIGIN = 'https://authn.io';
 
 // export classes for testing/TypeScript
@@ -37,6 +38,7 @@ export async function loadOnce(options) {
 export async function load(options = {
   mediatorOrigin: DEFAULT_MEDIATOR_ORIGIN
 }) {
+  console.log({options})
   // backwards compatibility (`options` used to be a string for expressing
   // the full mediator URL)
   let mediatorUrl;
@@ -57,6 +59,11 @@ export async function load(options = {
     // 30 second timeout for loading the mediator
     timeout: 30000
   });
+  console.log('create window', mediatorUrl, {
+    className: 'credential-mediator',
+    // 30 second timeout for loading the mediator
+    timeout: 30000
+  })
   // ensure backdrop is transparent by default
   const style = document.createElement('style');
   style.appendChild(document.createTextNode(

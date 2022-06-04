@@ -13,11 +13,12 @@ import {CredentialHandlerService} from './CredentialHandlerService.js';
 const EVENT_TYPES = ['credentialrequest', 'credentialstore'];
 
 export class CredentialHandler extends rpc.WebApp {
-  constructor(mediatorOrigin) {
+  constructor(mediatorOrigin, inline = false) {
     if(typeof mediatorOrigin !== 'string') {
       throw new TypeError('"mediatorOrigin" must be a string.');
     }
-    super(mediatorOrigin);
+    super(mediatorOrigin, inline);
+    console.log({mediatorOrigin, inline})
     this._emitter = new rpc.EventEmitter({
       async waitUntil(event) {
         // TODO: may need to do `this.hide()` after this promise resolves

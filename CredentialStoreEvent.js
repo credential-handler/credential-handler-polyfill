@@ -30,9 +30,13 @@ export class CredentialStoreEvent /*extends Event*/ {
   async openWindow(url) {
     // TODO: disallow more than one call
 
+    // FIXME: Determine value based on browser/platform
+    const popup = true;
+
     // TODO: ensure `url` is to the same origin
     await this._credentialHandler.show();
-    const appWindow = new rpc.WebAppWindow(url);
+    console.log({popup})
+    const appWindow = new rpc.WebAppWindow(url, {popup});
     appWindow.ready();
     appWindow.show();
     // TODO: note that `appWindow.handle` is not a ServiceWorker

@@ -30,13 +30,10 @@ export class CredentialRequestEvent /*extends Event*/ {
   async openWindow(url) {
     // TODO: disallow more than one call
 
-    // FIXME: Determine value based on browser/platform
-    const popup = true;
     // TODO: ensure `url` is to the same origin
     await this._credentialHandler.show();
     const appWindow = new rpc.WebAppWindow(url, {
-      className: 'credential-handler',
-      popup
+      className: 'credential-handler'
     });
     appWindow.ready();
     appWindow.show();
@@ -45,6 +42,7 @@ export class CredentialRequestEvent /*extends Event*/ {
     //   implement one to wrap it? -- there is, for example, a
     //   `navigate` call on `WindowClient` that enforces same origin, would
     //   need to attempt to add or approximate that
+    appWindow.handle._dialog = appWindow;
     return appWindow.handle;
   }
 

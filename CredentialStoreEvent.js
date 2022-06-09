@@ -7,7 +7,7 @@
 /* global Event */
 'use strict';
 
-import * as rpc from 'web-request-rpc';
+import {WebAppWindow} from 'web-request-rpc';
 
 // can't use "ExtendableEvent"; only accessible from Workers
 // TODO: may not be able to even extend `Event` here; could produce "incorrect"
@@ -32,7 +32,7 @@ export class CredentialStoreEvent /*extends Event*/ {
 
     // TODO: ensure `url` is to the same origin
     await this._credentialHandler.show();
-    const appWindow = new rpc.WebAppWindow(url);
+    const appWindow = new WebAppWindow(url);
     appWindow.ready();
     appWindow.show();
     // TODO: note that `appWindow.handle` is not a ServiceWorker

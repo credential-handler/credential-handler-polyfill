@@ -6,19 +6,19 @@
 /* global DOMException */
 'use strict';
 
-import * as rpc from 'web-request-rpc';
+import {EventEmitter, WebApp} from 'web-request-rpc';
 
 import {CredentialHandlerService} from './CredentialHandlerService.js';
 
 const EVENT_TYPES = ['credentialrequest', 'credentialstore'];
 
-export class CredentialHandler extends rpc.WebApp {
+export class CredentialHandler extends WebApp {
   constructor(mediatorOrigin, inline = false) {
     if(typeof mediatorOrigin !== 'string') {
       throw new TypeError('"mediatorOrigin" must be a string.');
     }
     super(mediatorOrigin, inline);
-    this._emitter = new rpc.EventEmitter({
+    this._emitter = new EventEmitter({
       async waitUntil(event) {
         // TODO: may need to do `this.hide()` after this promise resolves
         //   to handle case where e.openWindow() was called

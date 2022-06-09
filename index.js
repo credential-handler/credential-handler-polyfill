@@ -6,7 +6,7 @@
 /* global navigator, window */
 'use strict';
 
-import * as rpc from 'web-request-rpc';
+import {WebAppContext} from 'web-request-rpc';
 
 import {CredentialHandler} from './CredentialHandler.js';
 import {CredentialHandlers} from './CredentialHandlers.js';
@@ -53,23 +53,12 @@ export async function load(options = {
 
   // temporarily still using this for setting permissions and other
   // non-get/store APIs
-  const appContext = new rpc.WebAppContext();
+  const appContext = new WebAppContext();
   const injector = appContext.createWindow(mediatorUrl, {
     className: 'credential-mediator',
     // 30 second timeout for loading the mediator
     timeout: 30000
   });
-
-
-  // function createInjector() {
-  //   const appContext = new rpc.WebAppContext();
-  //   return appContext.createWindow(mediatorUrl, {
-  //     popup: true,
-  //     className: 'credential-mediator',
-  //     // 30 second timeout for loading the mediator
-  //     timeout: 30000
-  //   });
-  // }
 
   // ensure backdrop is transparent by default
   const style = document.createElement('style');
@@ -87,20 +76,6 @@ export async function load(options = {
   polyfill.CredentialHandler = CredentialHandler;
   polyfill.CredentialManager = CredentialManager;
   polyfill.credentials = new CredentialsContainer(injector);
-  // polyfill.credentials = {
-  //   async get(...args) {
-  //     console.log('polyfill get()')
-  //     const injector = createInjector();
-  //     const container = new CredentialsContainer(injector);
-  //     return container.get(...args);
-  //   },
-  //   async store(...args) {
-  //     console.log('polyfill store()')
-  //     const injector = createInjector();
-  //     const container = new CredentialsContainer(injector);
-  //     return container.store(...args);
-  //   }
-  // };
 
   polyfill.WebCredential = WebCredential;
 

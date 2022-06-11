@@ -40,7 +40,7 @@ export class CredentialStoreEvent /*extends Event*/ {
     //   implement one to wrap it? -- there is, for example, a
     //   `navigate` call on `WindowClient` that enforces same origin, would
     //   need to attempt to add or approximate that
-    appWindow.handle._dialog = appWindow;
+    appWindow.handle._dialog = appWindow.dialog;
     return appWindow.handle;
   }
 

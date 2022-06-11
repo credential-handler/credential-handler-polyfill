@@ -1,13 +1,10 @@
 /*!
- * A CredentialHandlerService handles remote calls to a CredentialHandler.
- *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
 import {CredentialRequestEvent} from './CredentialRequestEvent.js';
 import {CredentialStoreEvent} from './CredentialStoreEvent.js';
 
+/* A CredentialHandlerService handles remote calls to a CredentialHandler. */
 export class CredentialHandlerService {
   constructor(credentialHandler) {
     this._credentialHandler = credentialHandler;

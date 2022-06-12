@@ -169,7 +169,7 @@ which_ of these is the case.
 
 As an app developer, the recommended way to handle this situation depends on
 your specific use case. This dilemma is familiar to mobile app developers asking
-for specific phone permissions (to access the camera or location, for example).  
+for specific phone permissions (to access the camera or location, for example).
 It is up to you to decide whether your app has fallback mechanisms, or whether
 the operation is required and things come to a halt without it.
 
@@ -190,20 +190,64 @@ API will be through the `get` and `store` operations.
 
 However, if you're a service provider aiming to offer users a credential
 management service or a wallet, you will need the advanced API to prompt the
-user for permission to install, to activate the handler, and so on.
+user for permission to install.
 
-#### Requesting Permission and Registering the Handler
+#### Serving a manifest.json Web app manifest
+
+In order to register a credential handler, the credential handler website
+must serve a "manifest.json" file from its root path ("/manifest.json"). This
+file must also be CORS-enabled.
+
+The "manifest.json" file must, at a minimum, contain a "credential_handler"
+field that expresses the location of the credential handler and which types
+of Web credentials are supported. An example minimal "manifest.json" is:
+
+```js
+{
+  "credential_handler": {
+    "url": "/wallet-worker.html",
+    "enabledTypes": ["VerifiablePresentation"]
+  }
+}
+```
+
+A better "manifest.json" that would include display hints is:
+
+```js
+{
+  "icons": [
+    {
+      "sizes": "48x48 64x64",
+      "src": "demo-wallet.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "Demo Wallet",
+  "short_name": "Demo Wallet",
+  "credential_handler": {
+    "url": "/wallet-worker.html",
+    "enabledTypes": ["VerifiablePresentation"]
+  }
+}
+```
+
+If a Web app manifest with a proper "credential_handler" field cannot be
+retrieved from `/manifest.json`, then any permission request to allow the
+site to manage credentials for a user will be denied.
+
+#### Requesting Permission to Register the Handler
 
 ```js
 const {CredentialManager, CredentialHandlers} = polyfill;
 
+// if permission is granted, the handler URL in `credential_handler` in
+// `/manifest.json` will be installed and made available as a choice whenever
+// the `enabledTypes` in `credential_handler` in `/manifest.json` match a
+// credential `get` or `store` request
 const result = await CredentialManager.requestPermission();
 if(result !== 'granted') {
   throw new Error('Permission denied.');
 }
-
-// get credential handler registration
-const registration = await CredentialHandlers.register('/credential-handler');
 ```
 
 ## Install
@@ -242,9 +286,9 @@ Authorization Capabilities, and a variety of other cross-origin credentials.
 ### Add Credential Handler
 
 You can add a Credential Handler by calling the
-`CredentialHandlers.register()` API. This call will ensure that the individual
-using the browser explicitly confirms that they want to use the website as
-a credential handler.
+`CredentialManager.requestPermission()` API. This call will ensure that the
+individual using the browser explicitly confirms that they want to use the
+website as a credential handler.
 
 ![Animation showing addition of a Credential Handler](https://user-images.githubusercontent.com/108611/121816921-6b9d8c00-cc4c-11eb-940f-66881582b7ca.gif)
 

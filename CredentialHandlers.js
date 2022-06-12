@@ -28,6 +28,10 @@ export class CredentialHandlers {
    */
   async register(url) {
     await this._init;
+    // FIXME: deprecate this call, add `console.warn()` just request
+    // the `credentialhandler` permission and that's it -- `manifest.json`
+    // must be present or permission will be denied
+
     // register with credential mediator
     url = await this._remote.register('credential', url);
     return new CredentialHandlerRegistration(url, this._injector);

@@ -1,11 +1,7 @@
 /*!
- * Credential Handler API Polyfill.
- *
  * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator, window */
-'use strict';
-
 import {WebAppContext} from 'web-request-rpc';
 
 import {CredentialHandler} from './CredentialHandler.js';

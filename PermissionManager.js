@@ -1,13 +1,10 @@
 /*!
- * Provides an API for working with permissions.
- *
- * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
 // RPC timeouts, 0 = indefinite
 const PERMISSION_REQUEST_TIMEOUT = 0;
 
+/* Provides an API for working with permissions. */
 export class PermissionManager {
   constructor(injector) {
     this._init = (async () => {

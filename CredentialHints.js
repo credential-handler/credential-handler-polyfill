@@ -1,11 +1,7 @@
 /*!
- * API for managing CredentialHints.
- *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
 /* global Image */
-'use strict';
-
 export class CredentialHints {
   constructor(url, injector) {
     const remote = injector.get('credentialHints', {
@@ -13,14 +9,18 @@ export class CredentialHints {
     });
     for(let methodName in remote) {
       if(methodName !== 'set') {
-        this[methodName] = remote[methodName].bind(this, url);
+        const method = remote[methodName].bind(this, url);
+        this[methodName] = function(...args) {
+          this._deprecateNotice();
+          return method(...args);
+        };
       }
     }
     this._remoteSet = remote.set.bind(this, url);
   }
 
   async set(hintKey, credentialHint) {
-    // TODO: validate credential hint
+    this._deprecateNotice();
 
     // ensure images are prefetched so that they will not leak information
     // when fetched later
@@ -31,6 +31,10 @@ export class CredentialHints {
       }));
     await Promise.all(promises);
     return this._remoteSet(hintKey, credentialHint);
+  }
+
+  _deprecateNotice() {
+    console.warn('Credential hints are deprecated and no longer used.');
   }
 }
 

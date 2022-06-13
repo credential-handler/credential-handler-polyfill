@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 3.0.0 - 2022-06-xx
+## 3.0.0 - 2022-06-13
 
 ### Changed
 - **BREAKING**: Deprecate and make hints and registration APIs ineffectual.

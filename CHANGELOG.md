@@ -1,5 +1,29 @@
 # credential-handler-polyfill ChangeLog
 
+## 3.0.0 - 2022-06-xx
+
+### Changed
+- **BREAKING**: Deprecate and make hints and registration APIs ineffectual.
+  Registering a credential handler now only involves successfully asking
+  the user to allow `credentialhandler` permission -- and providing a
+  valid `credential_handler` section in `manifest.json`. Hints are no longer
+  used and there is no `registration` API. An effort has been made to prevent
+  existing code from breaking if it uses these APIs. Prior to this release
+  using these APIs to add hints or registrations was largely ineffectual or
+  at least unreliable as all that was required to ensure that a credential
+  handler showed up in the mediator UI chooser was the presence of any
+  hint or the use of `credential_handler` in `manifest.json` (plus a
+  recommendation from a relying party when calling the `get` or `store`
+  credential API. This has been simplified now -- and to a large extent
+  existing code will continue to function as it did before. This is especially
+  true for most users as the behavior for the Chrome browser is the least
+  changed; other browsers that request permission from a credential handler
+  site (aka digital wallet site) will see those permission requests always
+  result in prompting the user -- as other browsers do not have access to
+  storage to check for a previously saved permission value. The corrective
+  course of action is to move any such code that wasn't previously hidden
+  behind user activation behind one (e.g. a button / click / tap).
+
 ## 2.3.0 - 2022-01-18
 
 ### Added

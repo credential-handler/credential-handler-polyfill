@@ -10,9 +10,6 @@ export class CredentialManager {
     if(!(url && typeof url === 'string')) {
       throw new TypeError('"url" must be a non-empty string.');
     }
-    // FIXME: deprecate `.hints` -- make each method a no-op with a
-    // console.warn(); all that is needed is a permission request which will
-    // auto-register the credential handler based on what is in `manifest.json`
     this.hints = new CredentialHints(url, injector);
   }
 

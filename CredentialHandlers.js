@@ -1,10 +1,6 @@
 /*!
- * Provides an API for working with CredentialHandlerRegistrations.
- *
- * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
 import {CredentialHandlerRegistration}
   from './CredentialHandlerRegistration.js';
 
@@ -27,11 +23,8 @@ export class CredentialHandlers {
    * @return a Promise that resolves to the CredentialHandlerRegistration.
    */
   async register(url) {
+    this._deprecateNotice();
     await this._init;
-    // FIXME: deprecate this call, add `console.warn()` just request
-    // the `credentialhandler` permission and that's it -- `manifest.json`
-    // must be present or permission will be denied
-
     // register with credential mediator
     url = await this._remote.register('credential', url);
     return new CredentialHandlerRegistration(url, this._injector);
@@ -46,6 +39,7 @@ export class CredentialHandlers {
    *           and `false` if not.
    */
   async unregister(url) {
+    this._deprecateNotice();
     await this._init;
     // unregister with credential mediator
     return this._remote.unregister('credential', url);
@@ -60,6 +54,7 @@ export class CredentialHandlers {
    *           `null` if no such registration exists.
    */
   async getRegistration(url) {
+    this._deprecateNotice();
     await this._init;
     url = await this._remote.getRegistration('credential', url);
     if(!url) {
@@ -78,7 +73,16 @@ export class CredentialHandlers {
    *           `false` if not.
    */
   async hasRegistration(url) {
+    this._deprecateNotice();
     await this._init;
     return await this._remote.hasRegistration('credential', url);
+  }
+
+  _deprecateNotice() {
+    console.warn(
+      'Credential handler registration APIs are deprecated. The credential ' +
+      'handler specified in "manifest.json" is now automatically registered ' +
+      'when a user grants permission to install a credential handler via ' +
+      '"CredentialManager.requestPermission()".');
   }
 }

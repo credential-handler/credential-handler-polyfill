@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 2.3.1 - 2022-06-xx
+
+### Fixed
+- Fix wallet window loading bug.
+
 ## 2.3.0 - 2022-01-18
 
 ### Added

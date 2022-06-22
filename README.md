@@ -288,7 +288,9 @@ Authorization Capabilities, and a variety of other cross-origin credentials.
 You can add a Credential Handler by calling the
 `CredentialManager.requestPermission()` API. This call will ensure that the
 individual using the browser explicitly confirms that they want to use the
-website as a credential handler.
+website as a credential handler. ***This call must be called immediately
+following a user interaction, such as a button click or tap in order to
+ensure that the permission prompt can be shown to the user.***
 
 ![Animation showing addition of a Credential Handler](https://user-images.githubusercontent.com/108611/121816921-6b9d8c00-cc4c-11eb-940f-66881582b7ca.gif)
 

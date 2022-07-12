@@ -188,7 +188,14 @@ const presentation = {
   }]
 };
 
-const webCredential = new WebCredential('VerifiablePresentation', presentation);
+// optionally include `recommendedHandlerOrigins` so the user can choose an
+// applicable wallet if they don't have one yet:
+const options = {
+  recommendedHandlerOrigins: [
+    'https://chapi-demo-wallet.digitalbazaar.com'
+  ]
+};
+const webCredential = new WebCredential('VerifiablePresentation', presentation, options);
 ```
 
 #### Handling Empty Results

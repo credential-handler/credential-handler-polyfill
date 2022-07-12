@@ -55,6 +55,7 @@ access to the `navigator.credentials` and `credentialHandlerPolyfill` globals.
 
 ```js
 const polyfill = window.credentialHandlerPolyfill;
+// must be run from an async function if top-level await is unavailable
 await polyfill.loadOnce();
 console.log('Ready to work with credentials!');
 ```

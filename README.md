@@ -234,6 +234,11 @@ If a Web app manifest with a proper "credential_handler" field cannot be
 retrieved from `/manifest.json`, then any permission request to allow the
 site to manage credentials for a user will be denied.
 
+An example wallet worker page (the `url` for the credential handler)
+can be found here:
+
+https://github.com/credential-handler/chapi-demo-wallet/blob/master/wallet-worker.html
+
 #### Requesting Permission to Register the Handler
 
 ```js

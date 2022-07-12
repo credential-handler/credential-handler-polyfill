@@ -258,7 +258,7 @@ Adding the following `<script>` makes the `navigator.credentials`  and
 `credentialHandlerPolyfill` globals available to your code.
 
 ```html
-<script src="https://unpkg.com/credential-handler-polyfill@2.1.0/dist/credential-handler-polyfill.min.js"></script>
+<script src="https://unpkg.com/credential-handler-polyfill@3.0.0/dist/credential-handler-polyfill.min.js"></script>
 ```
 
 ### Installing using Node.js (for development)
@@ -266,7 +266,7 @@ Adding the following `<script>` makes the `navigator.credentials`  and
 To install as a dependency of another project, add this to your `package.json`:
 
 ```
-"credential-handler-polyfill": "^2.1.0"
+"credential-handler-polyfill": "^3.0.0"
 ```
 
 If you plan to develop or modify this polyfill, install it from Github:

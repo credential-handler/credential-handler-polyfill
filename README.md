@@ -55,6 +55,8 @@ access to the `navigator.credentials` and `credentialHandlerPolyfill` globals.
 
 ```js
 const polyfill = window.credentialHandlerPolyfill;
+await polyfill.loadOnce();
+console.log('Ready to work with credentials!');
 ```
 
 Otherwise (if you're developing on Node.js and using Webpack, for example),
@@ -62,14 +64,10 @@ import it in the usual manner:
 
 ```js
 import * as polyfill from 'credential-handler-polyfill';
-````
-
-Load (async):
-
-```js
+// must be run from an async function if top-level await is unavailable
 await polyfill.loadOnce();
 console.log('Ready to work with credentials!');
-```
+````
 
 ### Requesting and Storing Credentials
 

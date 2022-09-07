@@ -6,7 +6,8 @@ The CHAPI polyfill provides a number of features that enable the issuance,
 holding, presentation, and general management of Verifiable Credentials,
 Authorization Capabilities, and a variety of other cross-origin credentials.
 
-Check out [chapi.io](https://chapi.io)!
+For more information on CHAPI and links to updated demos and a playground, check out
+[chapi.io](https://chapi.io)!
 
 ![Animation showing selection of Credential Handler](https://user-images.githubusercontent.com/108611/121816947-8ec83b80-cc4c-11eb-8592-96b19f7b0b07.gif)
 

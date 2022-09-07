@@ -6,6 +6,8 @@ The CHAPI polyfill provides a number of features that enable the issuance,
 holding, presentation, and general management of Verifiable Credentials,
 Authorization Capabilities, and a variety of other cross-origin credentials.
 
+Check out [chapi.io](https://chapi.io)!
+
 ![Animation showing selection of Credential Handler](https://user-images.githubusercontent.com/108611/121816947-8ec83b80-cc4c-11eb-8592-96b19f7b0b07.gif)
 
 See the [feature videos](#features) for more animations of CHAPI in action.
@@ -38,9 +40,9 @@ Read more: [CHAPI Motivation and Background](docs/motivation-and-background.md).
 
 Take a look at the following websites to try out a minimal CHAPI implementation:
 
-1. https://chapi-demo-wallet.digitalbazaar.com/
-2. https://chapi-demo-issuer.digitalbazaar.com/
-2. https://chapi-demo-verifier.digitalbazaar.com/
+1. https://wallet.example.chapi.io
+2. https://issuer.example.chapi.io
+2. https://verifier.example.chapi.io
 
 ## Usage
 
@@ -115,7 +117,7 @@ const credentialQuery = {
     // the user if they don't have a credential handler, aka "wallet", they
     // want to use already
     recommendedHandlerOrigins: [
-      "https://chapi-demo-wallet.digitalbazaar.com"
+      "https://wallet.example.chapi.io"
     ]
   }
 };
@@ -192,7 +194,7 @@ const presentation = {
 // applicable wallet if they don't have one yet:
 const options = {
   recommendedHandlerOrigins: [
-    'https://chapi-demo-wallet.digitalbazaar.com'
+    'https://wallet.example.chapi.io'
   ]
 };
 const webCredential = new WebCredential('VerifiablePresentation', presentation, options);
@@ -319,7 +321,7 @@ To install as a dependency of another project, add this to your `package.json`:
 If you plan to develop or modify this polyfill, install it from Github:
 
 ```
-git clone https://github.com/digitalbazaar/credential-handler-polyfill.git
+git clone https://github.com/credential-handler/credential-handler-polyfill.git
 cd credential-handler-polyfill
 npm install
 ```

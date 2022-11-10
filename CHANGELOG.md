@@ -1,5 +1,10 @@
 # credential-handler-polyfill ChangeLog
 
+## 3.0.1 - 2022-11-dd
+
+### Fixed
+- Use `web-request-rpc@2.0.1` to avoid chromium-based browser focus bug.
+
 ## 3.0.0 - 2022-06-13
 
 ### Changed

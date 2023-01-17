@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 3.1.0 - 2023-01-dd
+## 3.1.0 - 2023-01-17
 
 ### Fixed
 - Throws error when loaded in an insecure context.

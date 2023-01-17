@@ -33,6 +33,7 @@ export async function loadOnce(options) {
 export async function load(options = {
   mediatorOrigin: DEFAULT_MEDIATOR_ORIGIN
 }) {
+  _assertSecureContext();
   // backwards compatibility (`options` used to be a string for expressing
   // the full mediator URL)
   let mediatorUrl;
@@ -91,4 +92,10 @@ export async function load(options = {
   window.WebCredential = WebCredential;
 
   return polyfill;
+}
+
+function _assertSecureContext() {
+  if(!window.isSecureContext) {
+    throw new DOMException('SecurityError', 'The operation is insecure.')
+  }
 }

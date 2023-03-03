@@ -308,7 +308,7 @@ Adding the following `<script>` makes the `navigator.credentials`  and
 `credentialHandlerPolyfill` globals available to your code.
 
 ```html
-<script src="https://unpkg.com/credential-handler-polyfill@3.0.0/dist/credential-handler-polyfill.min.js"></script>
+<script src="https://unpkg.com/credential-handler-polyfill@3/dist/credential-handler-polyfill.min.js"></script>
 ```
 
 ### Installing using Node.js (for development)

@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 3.2.0 - 2023-03-dd
+## 3.2.0 - 2023-03-09
 
 ### Added
 - Add ability to send `protocols` option. This property can be used with

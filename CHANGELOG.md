@@ -9,6 +9,8 @@
   values are the protocol URLs. These URLs will be passed to any credential
   handler that registers its `credential_handler.acceptedInput` (via its
   Web app manifest) as `url` instead of the default `event`.
+- ***The `protocols` option is experimental and may change without a new
+  major revision to the API.***
 
 ## 3.1.0 - 2023-01-17
 

@@ -1,5 +1,15 @@
 # credential-handler-polyfill ChangeLog
 
+## 3.2.0 - 2023-03-dd
+
+### Added
+- Add ability to send `protocols` option. This property can be used with
+  requests or with a `WebCredential` to specify a dictionary of protocol
+  URLs, where the keys in the dictionary are the protocol name and the
+  values are the protocol URLs. These URLs will be passed to any credential
+  handler that registers its `credential_handler.acceptedInput` (via its
+  Web app manifest) as `url` instead of the default `event`.
+
 ## 3.1.0 - 2023-01-17
 
 ### Fixed

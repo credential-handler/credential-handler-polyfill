@@ -114,12 +114,24 @@ const credentialQuery = {
         }
       ]
     },
-    // these are credential handler origins that can be recommended to
+    // these are optional credential handler origins that can be recommended to
     // the user if they don't have a credential handler, aka "wallet", they
     // want to use already
     recommendedHandlerOrigins: [
       "https://wallet.example.chapi.io"
-    ]
+    ],
+    // these are optional protocol URLs that will be passed to credential
+    // handlers that have registered their "credential_handler.acceptedInput"
+    // type as "url" in their web app manifest (instead of the default
+    // "event"); these credential handlers do not communicate with the mediator
+    // via events, but rather instead receive these "protocols" as a query
+    // parameter appended to their registered "credential_handler.url";
+    // additionally, the registered credential handler must have specified
+    // a matching protocol via "credential_handler.acceptedProtocols", e.g.,
+    // `"credential_handler": {"acceptedProtocols": ["OID4VC"], ...}`
+    protocols: {
+      OID4VC: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vc-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+    }
   }
 };
 const webCredential = await navigator.credentials.get(credentialQuery);
@@ -191,14 +203,27 @@ const presentation = {
   }]
 };
 
-// optionally include `recommendedHandlerOrigins` so the user can choose an
-// applicable wallet if they don't have one yet:
 const options = {
+  // optionally include `recommendedHandlerOrigins` so the user can choose an
+  // applicable wallet if they don't have one yet:
   recommendedHandlerOrigins: [
     'https://wallet.example.chapi.io'
-  ]
+  ],
+  // these are optional protocol URLs that will be passed to credential
+  // handlers that have registered their "credential_handler.acceptedInput"
+  // type as "url" in their web app manifest (instead of the default "event");
+  // these credential handlers do not communicate with the mediator via events,
+  // but rather instead receive these "protocols" as a query parameter appended
+  // to their registered "credential_handler.url"; additionally, the registered
+  // credential handler must have specified a matching protocol via
+  // "credential_handler.acceptedProtocols", e.g.,
+  // `"credential_handler": {"acceptedProtocols": ["OID4VC"], ...}`
+  protocols: {
+    OID4VC: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vc-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+  }
 };
-const webCredential = new WebCredential('VerifiablePresentation', presentation, options);
+const webCredential = new WebCredential(
+  'VerifiablePresentation', presentation, options);
 ```
 
 #### Handling Empty Results

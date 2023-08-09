@@ -130,7 +130,8 @@ const credentialQuery = {
     // a matching protocol via "credential_handler.acceptedProtocols", e.g.,
     // `"credential_handler": {"acceptedProtocols": ["OID4VCI"], ...}`
     protocols: {
-      OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+      OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345',
+      vcapi: 'https://vcapi.example/exchanges/zc32763fhjsdfa2wf32/exchange/zcx6wef73f632f23f23f'
     }
   }
 };
@@ -219,7 +220,8 @@ const options = {
   // "credential_handler.acceptedProtocols", e.g.,
   // `"credential_handler": {"acceptedProtocols": ["OID4VCI"], ...}`
   protocols: {
-    OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+    OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345',
+    vcapi: 'https://vcapi.example/exchanges/zc32763fhjsdfa2wf32/exchange/zcx6wef73f632f23f23f'
   }
 };
 const webCredential = new WebCredential(

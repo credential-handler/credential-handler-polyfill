@@ -128,9 +128,9 @@ const credentialQuery = {
     // parameter appended to their registered "credential_handler.url";
     // additionally, the registered credential handler must have specified
     // a matching protocol via "credential_handler.acceptedProtocols", e.g.,
-    // `"credential_handler": {"acceptedProtocols": ["OID4VC"], ...}`
+    // `"credential_handler": {"acceptedProtocols": ["OID4VCI"], ...}`
     protocols: {
-      OID4VC: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vc-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+      OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
     }
   }
 };
@@ -217,9 +217,9 @@ const options = {
   // to their registered "credential_handler.url"; additionally, the registered
   // credential handler must have specified a matching protocol via
   // "credential_handler.acceptedProtocols", e.g.,
-  // `"credential_handler": {"acceptedProtocols": ["OID4VC"], ...}`
+  // `"credential_handler": {"acceptedProtocols": ["OID4VCI"], ...}`
   protocols: {
-    OID4VC: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vc-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
+    OID4VCI: 'openid-initiate-issuance://?issuer=https%3A%2F%2Fexample.edu%2Foid4vci-example&credential_type=https%3A%2F%2Fexample.org%2Fexamples%23UniversityDegreeCredential&pre-authorized_code=not_real_12345'
   }
 };
 const webCredential = new WebCredential(

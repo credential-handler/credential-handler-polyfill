@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator, window */
 import {WebAppContext} from 'web-request-rpc';
@@ -88,6 +88,22 @@ export async function load(options = {
   } else {
     navigator.credentials = polyfill.credentials;
   }
+
+  // setup proxy for `navigator.credentials` to ensure subsequent changes to
+  // it do not prevent the polyfill from being able to run
+  navigator.credentials = new Proxy(navigator.credentials, {
+    set(obj, prop, value) {
+      if(prop in polyfill.credentials._nativeCredentialsContainer) {
+        // replace underlying function, keeping credentials polyfill intact
+        polyfill.credentials._nativeCredentialsContainer[prop] = value;
+      } else {
+        obj[prop] = value;
+      }
+      // success
+      return true;
+    }
+  });
+
   window.CredentialManager = CredentialManager;
   window.WebCredential = WebCredential;
 

@@ -1,5 +1,12 @@
 # credential-handler-polyfill ChangeLog
 
+## 3.2.1 - 2024-05-dd
+
+### Fixed
+- Ensure `navigator.credentials[get|store]` methods from the polyfill
+  will continue to run to process `options.web|WebCredential` if other
+  software that runs after it is setup changes those methods.
+
 ## 3.2.0 - 2023-03-09
 
 ### Added

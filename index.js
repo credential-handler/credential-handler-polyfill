@@ -89,8 +89,8 @@ export async function load(options = {
     navigator.credentials = polyfill.credentials;
   }
 
-  // setup proxy for `navigator.credentials` to ensure subsequent changes to
-  // it do not prevent the polyfill from being able to run
+  // set up proxy for `navigator.credentials`, to ensure subsequent changes
+  // to it do not prevent the polyfill from running
   navigator.credentials = new Proxy(navigator.credentials, {
     set(obj, prop, value) {
       if(prop in polyfill.credentials._nativeCredentialsContainer) {

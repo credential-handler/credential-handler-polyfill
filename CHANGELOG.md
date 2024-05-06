@@ -4,8 +4,9 @@
 
 ### Fixed
 - Ensure `navigator.credentials[get|store]` methods from the polyfill
-  will continue to run to process `options.web|WebCredential` if other
-  software that runs after it is setup changes those methods.
+  will continue to run and process `options.web|WebCredential`, even
+  if those methods are changed by other software that runs after the
+  polyfill is set up.
 
 ## 3.2.0 - 2023-03-09
 

@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 3.2.1 - 2024-05-dd
+## 3.2.1 - 2024-06-12
 
 ### Fixed
 - Ensure `navigator.credentials[get|store]` methods from the polyfill

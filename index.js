@@ -104,9 +104,10 @@ export async function load(options = {
     }
   });
 
-  Object.defineProperty(
-    navigator, 'credentials', {value: navCredentialsProxy,writable: true}
-  );
+  Object.defineProperty(navigator, 'credentials', {
+    value: navCredentialsProxy,
+    writable: true
+  });
 
   window.CredentialManager = CredentialManager;
   window.WebCredential = WebCredential;

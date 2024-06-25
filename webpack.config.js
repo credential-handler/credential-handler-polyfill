@@ -1,6 +1,6 @@
 export default {
   entry: {
-    'credential-handler-polyfill': './index.js'
+    'credential-handler-polyfill': './lib/index.js'
   },
   mode: 'development',
   devtool: 'source-map',

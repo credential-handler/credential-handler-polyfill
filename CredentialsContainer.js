@@ -2,11 +2,9 @@
  * Wrapper for native CredentialsContainer that uses remote Credential Mediator
  * for WebCredential-related operations.
  *
- * Copyright (c) 2017-2018 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator, DOMException */
-'use strict';
-
 import {WebCredential} from './WebCredential.js';
 
 // RPC timeouts, 0 = indefinite

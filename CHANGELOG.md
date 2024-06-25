@@ -1,5 +1,12 @@
 # credential-handler-polyfill ChangeLog
 
+## 4.0.0 - 2024-xx-xx
+
+### Changed
+- **BREAKING**: Change to module.
+- **BREAKING**: Update dependencies.
+  - `web-request-rpc@3`
+
 ## 3.2.1 - 2024-06-12
 
 ### Fixed

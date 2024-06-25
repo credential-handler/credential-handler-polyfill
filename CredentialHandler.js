@@ -1,11 +1,9 @@
 /*!
  * The core CredentialHandler class.
  *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* global DOMException */
-'use strict';
-
 import {EventEmitter, WebApp} from 'web-request-rpc';
 
 import {CredentialHandlerService} from './CredentialHandlerService.js';

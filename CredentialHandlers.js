@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import {CredentialHandlerRegistration}
   from './CredentialHandlerRegistration.js';
@@ -18,9 +18,9 @@ export class CredentialHandlers {
   /**
    * Creates a credential handler registration.
    *
-   * @param url the unique URL for the credential handler.
+   * @param {string} url - The unique URL for the credential handler.
    *
-   * @return a Promise that resolves to the CredentialHandlerRegistration.
+   * @returns {Promise} Resolves to the CredentialHandlerRegistration.
    */
   async register(url) {
     this._deprecateNotice();
@@ -33,10 +33,10 @@ export class CredentialHandlers {
   /**
    * Unregisters a credential handler, destroying its registration.
    *
-   * @param url the unique URL for the credential handler.
+   * @param {string} url - The unique URL for the credential handler.
    *
-   * @return a Promise that resolves to `true` if the handler was registered
-   *           and `false` if not.
+   * @returns {Promise} Resolves to `true` if the handler was registered and
+   *   `false` if not.
    */
   async unregister(url) {
     this._deprecateNotice();
@@ -48,10 +48,10 @@ export class CredentialHandlers {
   /**
    * Gets an existing credential handler registration.
    *
-   * @param url the URL for the credential handler.
+   * @param {string} url - The URL for the credential handler.
    *
-   * @return a Promise that resolves to the CredentialHandlerRegistration or
-   *           `null` if no such registration exists.
+   * @returns {Promise} Resolves to the CredentialHandlerRegistration or `null`
+   *   if no such registration exists.
    */
   async getRegistration(url) {
     this._deprecateNotice();
@@ -67,10 +67,10 @@ export class CredentialHandlers {
    * Returns true if the given credential handler has been registered and
    * false if not.
    *
-   * @param url the URL for the credential handler.
+   * @param {string} url - The URL for the credential handler.
    *
-   * @return a Promise that resolves to `true` if the registration exists and
-   *           `false` if not.
+   * @returns {Promise} Resolves to `true` if the registration exists and
+   *   `false` if not.
    */
   async hasRegistration(url) {
     this._deprecateNotice();

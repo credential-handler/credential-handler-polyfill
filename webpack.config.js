@@ -1,7 +1,8 @@
-module.exports = {
+export default {
   entry: {
     'credential-handler-polyfill': './index.js'
   },
+  mode: 'development',
   devtool: 'source-map',
   optimization: {
     minimize: false

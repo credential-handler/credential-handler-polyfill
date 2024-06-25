@@ -5,8 +5,6 @@
  * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 // /* global Event */
-'use strict';
-
 import {WebAppWindow} from 'web-request-rpc';
 
 // can't use "ExtendableEvent"; only accessible from Workers

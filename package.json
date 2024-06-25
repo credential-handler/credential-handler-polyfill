@@ -3,15 +3,12 @@
   "version": "3.2.2-0",
   "description": "Credential Handler API Polyfill",
   "type": "module",
-  "main": "./index.js",
-  "exports": "./index.js",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
   "files": [
-    "dist/*.js",
-    "dist/*.js.map",
-    "index.js",
-    "Credential*.js",
-    "PermissionManager.js",
-    "WebCredential.js"
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "lib/**/*.js"
   ],
   "scripts": {
     "prepublish": "npm run build",

@@ -2,23 +2,22 @@
   "name": "credential-handler-polyfill",
   "version": "3.2.2-0",
   "description": "Credential Handler API Polyfill",
-  "main": "index.js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
   "files": [
-    "dist/*.js",
-    "dist/*.js.map",
-    "index.js",
-    "Credential*.js",
-    "PermissionManager.js",
-    "WebCredential.js"
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "lib/**/*.js"
   ],
   "scripts": {
     "prepublish": "npm run build",
-    "build": "webpack --mode development",
+    "build": "webpack",
     "lint": "eslint --ext .cjs,.js ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/digitalbazaar/credential-handler-polyfill.git"
+    "url": "https://github.com/credential-handler/credential-handler-polyfill.git"
   },
   "author": {
     "name": "Digital Bazaar, Inc.",
@@ -27,18 +26,19 @@
   },
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/digitalbazaar/credential-handler-polyfill/issues"
+    "url": "https://github.com/credential-handler/credential-handler-polyfill/issues"
   },
-  "homepage": "https://github.com/digitalbazaar/credential-handler-polyfill",
+  "homepage": "https://github.com/credential-handler/credential-handler-polyfill",
   "dependencies": {
-    "web-request-rpc": "^2.0.2"
+    "web-request-rpc": "digitalbazaar/web-request-rpc#change-to-module"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-digitalbazaar": "^5.2.0",
     "eslint-plugin-jsdoc": "^48.4.0",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^3.3.9"
+    "eslint-plugin-unicorn": "^54.0.0",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
   },
   "bedrock": {
     "browserDependencies": [

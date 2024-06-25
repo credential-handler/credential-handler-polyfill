@@ -3,6 +3,19 @@
   "version": "3.2.2-0",
   "description": "Credential Handler API Polyfill",
   "main": "index.js",
+  "files": [
+    "dist/*.js",
+    "dist/*.js.map",
+    "index.js",
+    "Credential*.js",
+    "PermissionManager.js",
+    "WebCredential.js"
+  ],
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "webpack --mode development",
+    "lint": "eslint --ext .cjs,.js ."
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/digitalbazaar/credential-handler-polyfill.git"
@@ -20,25 +33,16 @@
   "dependencies": {
     "web-request-rpc": "^2.0.2"
   },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-digitalbazaar": "^5.2.0",
+    "eslint-plugin-jsdoc": "^48.4.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^3.3.9"
+  },
   "bedrock": {
     "browserDependencies": [
       "web-request-rpc"
     ]
-  },
-  "devDependencies": {
-    "webpack": "^4.10.2",
-    "webpack-cli": "^3.3.9"
-  },
-  "files": [
-    "dist/*.js",
-    "dist/*.js.map",
-    "index.js",
-    "Credential*.js",
-    "PermissionManager.js",
-    "WebCredential.js"
-  ],
-  "scripts": {
-    "prepublish": "npm run build",
-    "build": "webpack --mode development"
   }
 }

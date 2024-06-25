@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* global Image */
 export class CredentialHints {
@@ -7,7 +7,7 @@ export class CredentialHints {
     const remote = injector.get('credentialHints', {
       functions: ['delete', 'get', 'keys', 'has', 'set', 'clear']
     });
-    for(let methodName in remote) {
+    for(const methodName in remote) {
       if(methodName !== 'set') {
         const method = remote[methodName].bind(this, url);
         this[methodName] = function(...args) {

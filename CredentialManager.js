@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* global navigator */
 import {CredentialHints} from './CredentialHints.js';
@@ -17,8 +17,8 @@ export class CredentialManager {
    * Requests that the user grant 'credentialhandler' permission to the current
    * origin.
    *
-   * @return a Promise that resolves to the new PermissionState of the
-   *           permission (e.g. 'granted'/'denied').
+   * @returns {Promise} Resolves to the new PermissionState of the permission
+   *   (e.g. 'granted'/'denied').
    */
   static async requestPermission() {
     const status = await navigator.credentialsPolyfill.permissions.request(

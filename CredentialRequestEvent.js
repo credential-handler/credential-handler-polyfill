@@ -2,9 +2,9 @@
  * A CredentialRequestEvent is emitted when a request has been made for
  * credentials.
  *
- * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2017-2024 Digital Bazaar, Inc. All rights reserved.
  */
-/* global Event */
+// /* global Event */
 'use strict';
 
 import {WebAppWindow} from 'web-request-rpc';

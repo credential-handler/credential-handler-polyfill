@@ -117,6 +117,6 @@ export async function load(options = {
 
 function _assertSecureContext() {
   if(!window.isSecureContext) {
-    throw new DOMException('SecurityError', 'The operation is insecure.')
+    throw new DOMException('SecurityError', 'The operation is insecure.');
   }
 }

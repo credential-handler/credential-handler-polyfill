@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 4.0.0 - 2024-xx-xx
+## 4.0.0 - 2024-07-02
 
 ### Changed
 - **BREAKING**: Change to module.

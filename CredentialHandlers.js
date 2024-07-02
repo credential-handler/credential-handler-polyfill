@@ -75,6 +75,7 @@ export class CredentialHandlers {
   async hasRegistration(url) {
     this._deprecateNotice();
     await this._init;
+    /* eslint-disable-next-line no-return-await */
     return await this._remote.hasRegistration('credential', url);
   }
 

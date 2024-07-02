@@ -19,16 +19,19 @@ export class PermissionManager {
 
   async query(permissionDesc) {
     await this._init;
+    /* eslint-disable-next-line no-return-await */
     return await this._remote.query(permissionDesc);
   }
 
   async request(permissionDesc) {
     await this._init;
+    /* eslint-disable-next-line no-return-await */
     return await this._remote.request(permissionDesc);
   }
 
   async revoke(permissionDesc) {
     await this._init;
+    /* eslint-disable-next-line no-return-await */
     return await this._remote.revoke(permissionDesc);
   }
 }

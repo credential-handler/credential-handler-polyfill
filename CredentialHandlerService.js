@@ -12,6 +12,7 @@ export class CredentialHandlerService {
 
   async request(credentialRequestEvent) {
     // TODO: validate credentialRequestEvent
+    /* eslint-disable-next-line no-return-await */
     return await this._credentialHandler._emitter.emit(
       new CredentialRequestEvent(Object.assign(
         {credentialHandler: this._credentialHandler}, credentialRequestEvent)));
@@ -19,6 +20,7 @@ export class CredentialHandlerService {
 
   async store(credentialStoreEvent) {
     // TODO: validate credentialStoreEvent
+    /* eslint-disable-next-line no-return-await */
     return await this._credentialHandler._emitter.emit(
       new CredentialStoreEvent(Object.assign(
         {credentialHandler: this._credentialHandler}, credentialStoreEvent)));

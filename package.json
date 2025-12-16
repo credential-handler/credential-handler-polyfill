@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/credential-handler/credential-handler-polyfill",
   "dependencies": {
-    "web-request-rpc": "^3.0.0"
+    "web-request-rpc": "^3.0.1"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

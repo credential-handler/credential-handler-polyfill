@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 4.0.1 - 2025-12-dd
+## 4.0.1 - 2025-12-16
 
 ### Fixed
 - Update dependencies:

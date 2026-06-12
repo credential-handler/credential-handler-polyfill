@@ -1,5 +1,13 @@
 # credential-handler-polyfill ChangeLog
 
+## 4.0.2 - 2026-06-dd
+
+### Fixed
+- Do not throw during `load()` on browsers (e.g., WebKit/iOS) where
+  `navigator.credentials` cannot be redefined via `Object.defineProperty`;
+  fall back to plain assignment or, failing that, skip installing the
+  proxy that protects against subsequent overwrites.
+
 ## 4.0.1 - 2025-12-16
 
 ### Fixed

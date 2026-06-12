@@ -2,19 +2,18 @@ name: Main CI
 
 on: [push]
 
+permissions: {}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        node-version: [20.x]
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+    - uses: actions/checkout@v6
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v6
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.x
     - name: Install
       run: npm install
     - name: Lint

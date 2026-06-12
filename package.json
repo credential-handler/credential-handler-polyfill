@@ -13,7 +13,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "webpack",
-    "lint": "eslint --ext .cjs,.js ."
+    "lint": "eslint --no-warn-ignored ."
   },
   "repository": {
     "type": "git",
@@ -33,12 +33,10 @@
     "web-request-rpc": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
-    "eslint-config-digitalbazaar": "^5.2.0",
-    "eslint-plugin-jsdoc": "^48.4.0",
-    "eslint-plugin-unicorn": "^54.0.0",
-    "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4"
+    "@digitalbazaar/eslint-config": "^8.0.1",
+    "eslint": "^9.39.4",
+    "webpack": "^5.107.2",
+    "webpack-cli": "^7.0.3"
   },
   "bedrock": {
     "browserDependencies": [

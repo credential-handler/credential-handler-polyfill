@@ -1,5 +1,14 @@
 # credential-handler-polyfill ChangeLog
 
+## 4.0.3 - 2026-06-dd
+
+### Changed
+- Update dev dependencies:
+  - Use `@digitalbazaar/eslint-config@8` with eslint 9 flat config,
+    replacing `eslint-config-digitalbazaar`.
+  - Use `webpack-cli@7`.
+- Update GitHub Actions to use Node.js 22.x and current action versions.
+
 ## 4.0.2 - 2026-06-12
 
 ### Fixed

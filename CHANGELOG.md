@@ -1,6 +1,6 @@
 # credential-handler-polyfill ChangeLog
 
-## 4.0.2 - 2026-06-dd
+## 4.0.2 - 2026-06-12
 
 ### Fixed
 - Do not throw during `load()` on browsers (e.g., WebKit/iOS) where

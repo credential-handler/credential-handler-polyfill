@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2026 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2026 Digital Bazaar, Inc.
  */
 import config from '@digitalbazaar/eslint-config/browser-recommended';
 import globals from 'globals';

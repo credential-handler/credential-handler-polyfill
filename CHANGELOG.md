@@ -1,5 +1,14 @@
 # credential-handler-polyfill ChangeLog
 
+## 4.0.4 - 2026-06-dd
+
+### Added
+- Cross-browser smoke test suite (Playwright) covering Chromium, Firefox, and
+  WebKit. Verifies `loadOnce()` resolves and patches `navigator.credentials`,
+  and includes a regression guard for the non-configurable
+  `navigator.credentials` case fixed in 4.0.2 (see #51 / #52). Runs as a `test`
+  CI job alongside lint.
+
 ## 4.0.3 - 2026-06-12
 
 ### Changed

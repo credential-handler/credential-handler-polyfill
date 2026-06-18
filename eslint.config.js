@@ -7,7 +7,7 @@ import globals from 'globals';
 export default [
   ...config,
   {
-    files: ['webpack.config.js'],
+    files: ['webpack.config.js', 'playwright.config.js', 'test/**/*.js'],
     languageOptions: {
       globals: {
         ...globals.node

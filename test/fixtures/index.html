@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--
+  Copyright (c) 2026 Digital Bazaar, Inc.
+
+  Smoke-test fixture: loads the built UMD bundle and exposes the polyfill API
+  on `window.credentialHandlerPolyfill` so Playwright can drive `loadOnce()`
+  across browsers. Served over http://localhost (a secure context), so
+  `_assertSecureContext()` passes without HTTPS.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>credential-handler-polyfill smoke test</title>
+  <script src="/dist/credential-handler-polyfill.min.js"></script>
+</head>
+<body>
+  <p>credential-handler-polyfill smoke test fixture</p>
+</body>
+</html>

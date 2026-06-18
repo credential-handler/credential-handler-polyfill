@@ -13,7 +13,8 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "webpack",
-    "lint": "eslint --no-warn-ignored ."
+    "lint": "eslint --no-warn-ignored .",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,9 @@
   },
   "devDependencies": {
     "@digitalbazaar/eslint-config": "^8.0.1",
+    "@playwright/test": "^1.61.0",
     "eslint": "^9.39.4",
+    "http-server": "^14.1.1",
     "webpack": "^5.107.2",
     "webpack-cli": "^7.0.3"
   },

@@ -354,6 +354,21 @@ cd credential-handler-polyfill
 npm install
 ```
 
+### Testing
+
+The polyfill has a cross-browser smoke test suite (Playwright) that loads the
+built bundle in Chromium, Firefox, and WebKit and verifies that `loadOnce()`
+resolves and patches `navigator.credentials`. It includes a regression guard
+for the case where `navigator.credentials` is non-configurable (as on
+Safari/iOS).
+
+Install the browser binaries once, then run the tests:
+
+```
+npx playwright install --with-deps chromium firefox webkit
+npm test
+```
+
 ## Features
 
 The CHAPI polyfill provides a number of features that enable the issuance,

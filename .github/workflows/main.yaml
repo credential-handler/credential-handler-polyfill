@@ -18,3 +18,18 @@ jobs:
       run: npm install
     - name: Lint
       run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@v6
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v6
+      with:
+        node-version: 22.x
+    - name: Install
+      run: npm install
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps chromium firefox webkit
+    - name: Test
+      run: npm test

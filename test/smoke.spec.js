@@ -39,23 +39,27 @@ test('loadOnce() resolves when navigator.credentials is non-configurable',
 
     // True regression guard for #51. Playwright's bundled engines (incl.
     // WebKit 26.5) report `navigator.credentials` as `configurable: true`,
-    // so they do NOT reproduce real Safari/iOS, where the property is
-    // non-configurable and `Object.defineProperty()` throws. We force that
-    // condition here so the test is red on the pre-#52 (unguarded
+    // so they do NOT reproduce real Safari/iOS on their own. We force the
+    // Safari shape here so the test is red on the pre-#52 (unguarded
     // defineProperty) code in every engine and green with the try/catch
     // fallback.
     const result = await page.evaluate(async () => {
-      // Pin `navigator.credentials` as a non-configurable, non-writable data
-      // property. This is the shape that makes the polyfill's
-      // `Object.defineProperty()` call throw a TypeError, matching real
-      // Safari/iOS. (A non-configurable but *writable* property does not throw
-      // on redefine, so it would not reproduce the bug.) `get`/`store` are
-      // still mutable on the object itself, so the polyfill's earlier direct
-      // patching of those methods still succeeds.
+      // Redefine `navigator.credentials` as a non-configurable, getter-only
+      // accessor returning the existing object. This is the shape #52
+      // describes WebKit using, and it is what makes the polyfill's
+      // `Object.defineProperty()` call throw (you cannot redefine a
+      // non-configurable property, and you cannot convert an accessor to a
+      // data property). A non-configurable but *writable data* property does
+      // NOT throw on redefine, so it would not reproduce the bug; freezing the
+      // object as a non-writable data property is rejected differently across
+      // engines. Getter-only is both faithful and portable: the object itself
+      // stays mutable, so the polyfill's earlier direct patching of
+      // `get`/`store` still succeeds.
       const current = navigator.credentials;
       Object.defineProperty(navigator, 'credentials', {
-        value: current,
-        writable: false,
+        get() {
+          return current;
+        },
         configurable: false
       });
       let threw = false;
@@ -71,7 +75,8 @@ test('loadOnce() resolves when navigator.credentials is non-configurable',
       };
     });
 
-    // pre-#52: `threw` is a TypeError string and get/store are never patched
+    // pre-#52: `threw` is a TypeError string ("Cannot redefine property" /
+    // "Attempting to change access mechanism for an unconfigurable property")
     expect(result.threw).toBe(false);
     expect(result.getIsFn).toBe(true);
     expect(result.storeIsFn).toBe(true);

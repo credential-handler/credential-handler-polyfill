@@ -25,13 +25,15 @@ jobs:
     # keep the tag in sync with the `@playwright/test` version in package.json
     container:
       image: mcr.microsoft.com/playwright:v1.61.0-noble
+    # the image runs as root, but the Actions container mounts $HOME at
+    # /github/home (owned by pwuser); Firefox refuses to launch as root unless
+    # $HOME is owned by the current user, so point it at root's home
+    env:
+      HOME: /root
     timeout-minutes: 10
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v6
-      with:
-        node-version: 22.x
+    # the Playwright image already ships Node.js 22, so no setup-node step
     - name: Install
       run: npm install
     - name: Test

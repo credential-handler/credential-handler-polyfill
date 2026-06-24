@@ -14,7 +14,9 @@
     "prepublish": "npm run build",
     "build": "webpack",
     "lint": "eslint --no-warn-ignored .",
-    "test": "playwright test"
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "node --test 'test/node/**/*.test.js'",
+    "test:browser": "playwright test"
   },
   "repository": {
     "type": "git",

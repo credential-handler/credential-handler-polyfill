@@ -10,6 +10,9 @@ const PORT = 9876;
 
 export default defineConfig({
   testDir: './test',
+  // node:test unit tests for the pure functional core live in test/node/ and
+  // are run via `npm run test:node`, not Playwright
+  testIgnore: '**/node/**',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,

@@ -1,7 +1,7 @@
 # Spec: Simplified `interact()` API for interaction URLs
 > Status: Draft — pending review by Engineering, DevOps, CTO, and Privacy Officer. Addresses [#50](https://github.com/credential-handler/credential-handler-polyfill/issues/50).
 ## Summary
-Add a drastically simplified, single-call CHAPI entry point that lets issuer/verifier coordinator websites (relying parties) start a credential interaction by handing the polyfill an `interactionUrl`, without composing the full `web`/`VerifiablePresentation` request object themselves. The new `interact({interactionUrl, signal, recommendedHandlerOrigins, type})` method resolves when the interaction completes (to an empty object/`undefined` for now) or rejects with an `AbortError` when the user cancels or the caller aborts via an `AbortSignal`. Under the hood it translates into the existing `credentialrequest` (`get()`) flow — reusing the established `protocols` mechanism to carry the URL — so it is compatible with today's mediator and deployed credential handlers. The method is reachable two ways: attached at `navigator.chapi` after `loadOnce()`, and returned from a standalone factory export so callers can attach the API wherever they like (addressing the "avoid `navigator`" request in the issue thread).
+Add a drastically simplified, single-call CHAPI entry point that lets issuer/verifier coordinator websites (relying parties) start a credential interaction by handing the polyfill an `interactionUrl`, without composing the full `web`/`VerifiablePresentation` request object themselves. The new `interact({interactionUrl, signal, recommendedHandlerOrigins})` method always generates a credential _request_ and resolves when the interaction completes (to an empty object/`undefined` for now) or rejects with an `AbortError` when the user cancels or the caller aborts via an `AbortSignal`. Under the hood it translates into the existing `credentialrequest` (`get()`) flow — reusing the established `protocols` mechanism to carry the URL — so it is compatible with today's mediator and deployed credential handlers. The method is reachable two ways: attached at `navigator.chapi` after `loadOnce()`, and returned from a standalone factory export so callers can attach the API wherever they like (addressing the "avoid `navigator`" request in the issue thread).
 ## Implementation details & assumptions
 ### New public API
 ```js
@@ -9,8 +9,7 @@ Add a drastically simplified, single-call CHAPI entry point that lets issuer/ver
 await chapi.interact({
   interactionUrl,                 // required string (https: URL)
   signal,                         // optional AbortSignal
-  recommendedHandlerOrigins,      // optional string[]
-  type                            // optional 'request' | 'store', default 'request'
+  recommendedHandlerOrigins       // optional string[]
 });
 ```
 
@@ -30,9 +29,7 @@ Resolution contract:
   Both paths share one implementation; `navigator.chapi` is just the factory result assigned to `navigator`.
   
 ### Translation to existing flow
-- `type: 'request'` (default) → translate to a `navigator.credentials.get()` call with a `web` request.
-  
-- `type: 'store'` → reserved in the API now; wiring to `store()` is deferred to a follow-up (see Open questions). `interact()` validates and accepts the param but the spec does not commit to `store` behavior in this change.
+- `interact()` always translates to a `navigator.credentials.get()` call with a `web` request. There is no `type` parameter: generating a request is expected to cover all current use cases (per review feedback on the draft PR), and a `store`-style flow can be added later without changing this signature if a concrete need emerges.
   
 - `interactionUrl` is carried via the **existing** `protocols` **map** (the query-param mechanism already used for URL-type credential handlers), not a new mediator field. This keeps the change client-side only — no mediator or RPC contract changes required for the initial release.
   
@@ -41,7 +38,7 @@ Resolution contract:
 - `signal` is wired to the abort path: if already aborted, reject immediately; otherwise reject with `AbortError` when it fires.
   
 ### Functional-core / imperative-shell split
-Per house practice, the request-construction logic is a **pure function** — `(interactionUrl, type, recommendedHandlerOrigins) → CredentialRequestOptions` — independently testable with no mediator, no `navigator`, no network. The imperative shell (`interact()`) does the secure-context check, awaits the RPC, and maps the result/abort to the resolution contract.
+Per house practice, the request-construction logic is a **pure function** — `(interactionUrl, recommendedHandlerOrigins) → CredentialRequestOptions` — independently testable with no mediator, no `navigator`, no network. The imperative shell (`interact()`) does the secure-context check, awaits the RPC, and maps the result/abort to the resolution contract.
 ### Assumptions
 - The deployed mediator and at least one URL-type credential handler already honor the `protocols` query-param mechanism (it is documented and shipped).
   
@@ -111,23 +108,19 @@ The polyfill itself collects, stores, and persists **no** personal data. It is a
 These remain **open by design** and are to be resolved during the initial
 review on the draft PR — they are not blockers to opening that draft.
 
-1. **Final names.** `interact`, the factory export name, and the `type` values
-   (`'request'`/`'store'`) are all flagged for bikeshedding in the issue. Names
-   above are placeholders.
-2. **`type: 'store'` wiring.** Should `store` translate to a `credentialstore`
-   event in this change, or land as a documented-but-unimplemented param with a
-   follow-up issue? Spec currently defers `store` behavior.
-3. **Resolution payload.** Confirm `interact()` resolves to `{}` vs `undefined`,
+1. **Final names.** `interact` and the factory export name are flagged for
+   bikeshedding in the issue. Names above are placeholders.
+2. **Resolution payload.** Confirm `interact()` resolves to `{}` vs `undefined`,
    and whether a future version returns interaction results (and if so, what the
    minimal shape is).
-4. **`interactionUrl` mapping key.** Under which `protocols` key should
+3. **`interactionUrl` mapping key.** Under which `protocols` key should
    `interactionUrl` be placed for the mediator/handler to recognize it, and does
    any deployed handler need a manifest update to accept it?
-5. **Performance for first-time calls.** The issue notes a no-`loadOnce()` path
+4. **Performance for first-time calls.** The issue notes a no-`loadOnce()` path
    may incur first-call setup cost (injecting the mediator iframe/styles). Do we
    need a documented "warm-up" call, or is lazy initialization on first
    `interact()` acceptable?
-6. **`signal` interaction with the RPC.** The current RPC `get` uses an
+5. **`signal` interaction with the RPC.** The current RPC `get` uses an
    indefinite timeout; confirm aborting `signal` cleanly tears down or abandons
    the in-flight RPC rather than leaking it.
 

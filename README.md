@@ -160,6 +160,45 @@ if(!result) {
 }
 ```
 
+#### `interact()`
+
+> **Note:** `interact()` is a new, simplified entry point. See the
+> [design spec](docs/specs/interact-api.md). The method name and return shape
+> may still change.
+
+A coordinator website (a Relying Party such as an issuer or verifier) can start
+a credential interaction by handing the polyfill a single **interaction URL**,
+without composing a full `web` request object itself. `interact()` always
+generates a credential _request_; under the hood it translates into the same
+`navigator.credentials.get()` flow, carrying the URL in the `protocols` map
+under the well-known `interact` key.
+
+```js
+// reachable as `navigator.chapi` after load(), or from the object returned
+// by load()/loadOnce()
+await navigator.chapi.interact({
+  // required: an `https:` URL the coordinator already trusts; the polyfill
+  // treats it as opaque (it does not fetch, parse, or encode it). The full
+  // "protocols" object is fetched from this URL over TLS by the selected
+  // handler, which authenticates its source and supports disconnected
+  // systems (e.g. QR-code readers).
+  interactionUrl: 'https://coordinator.example/exchanges/z1A2b3C4',
+  // optional: an AbortSignal to cancel the interaction
+  signal,
+  // optional: credential handler origins to recommend to the user
+  recommendedHandlerOrigins: ['https://wallet.example.chapi.io']
+});
+```
+
+The returned promise:
+
+- **resolves** to an empty object (`{}`) when the interaction completes; no
+  credential data is returned to the coordinator (data minimization),
+- **rejects** with a `DOMException` named `AbortError` when the user cancels or
+  the caller aborts via `signal`,
+- otherwise rejects with the same errors surfaced by
+  [`get()`](#get) (e.g. `SecurityError` outside a secure context).
+
 #### WebCredential
 
 TODO: Discuss creating and receiving WebCredential instances

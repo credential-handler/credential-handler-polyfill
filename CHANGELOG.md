@@ -3,6 +3,17 @@
 ## 4.0.4 - 2026-06-dd
 
 ### Added
+- Simplified `interact()` API: a single-call entry point that starts a
+  credential interaction from an opaque `https:` interaction URL, without the
+  caller composing a full `web` request. It always generates a request,
+  translating to the existing `get()` flow with the URL carried in the
+  `protocols` map under the well-known `interact` meta-protocol key. Reachable
+  as `navigator.chapi.interact()` and on the object returned by
+  `load()`/`loadOnce()`. Resolves to an empty object on completion; rejects
+  with `AbortError` on user cancel or `signal` abort. See
+  `docs/specs/interact-api.md` and #50.
+- Node.js unit tests (`node --test`) for the `interact()` functional core and
+  imperative shell, run via `npm run test:node` (and as part of `npm test`).
 - Cross-browser smoke test suite (Playwright) covering Chromium, Firefox, and
   WebKit. Verifies `loadOnce()` resolves and patches `navigator.credentials`,
   and includes a regression guard for the non-configurable

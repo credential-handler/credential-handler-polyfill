@@ -1,5 +1,5 @@
 # Spec: Simplified `interact()` API for interaction URLs
-> Status: Draft — pending review by Engineering, DevOps, CTO, and Privacy Officer. Addresses [#50](https://github.com/credential-handler/credential-handler-polyfill/issues/50).
+> Status: In review — an initial implementation has landed in this PR; some open questions below remain to be settled during review (final method name, resolution payload, in-flight `signal` teardown). Addresses [#50](https://github.com/credential-handler/credential-handler-polyfill/issues/50).
 ## Summary
 Add a drastically simplified, single-call CHAPI entry point that lets issuer/verifier coordinator websites (relying parties) start a credential interaction by handing the polyfill an `interactionUrl`, without composing the full `web`/`VerifiablePresentation` request object themselves. The new `interact({interactionUrl, signal, recommendedHandlerOrigins})` method always generates a credential _request_ and resolves when the interaction completes (to an empty object/`undefined` for now) or rejects with an `AbortError` when the user cancels or the caller aborts via an `AbortSignal`. Under the hood it translates into the existing `credentialrequest` (`get()`) flow — reusing the established `protocols` mechanism to carry the URL — so it is compatible with today's mediator and deployed credential handlers. The method is reachable two ways: attached at `navigator.chapi` after `loadOnce()`, and returned from a standalone factory export so callers can attach the API wherever they like (addressing the "avoid `navigator`" request in the issue thread).
 ## Implementation details & assumptions
@@ -121,16 +121,22 @@ review on the draft PR — they are not blockers to opening that draft.
 
 1. **Final names.** `interact` and the factory export name are flagged for
    bikeshedding in the issue. Names above are placeholders.
-2. **Resolution payload.** Confirm `interact()` resolves to `{}` vs `undefined`,
-   and whether a future version returns interaction results (and if so, what the
-   minimal shape is).
+2. **Resolution payload.** Confirm `interact()` resolves to `{}` vs `undefined`.
+   *Current implementation resolves to `{}`.* Open: whether a future version
+   returns interaction results (and if so, what the minimal shape is).
 3. **Performance for first-time calls.** The issue notes a no-`loadOnce()` path
    may incur first-call setup cost (injecting the mediator iframe/styles). Do we
    need a documented "warm-up" call, or is lazy initialization on first
    `interact()` acceptable?
-4. **`signal` interaction with the RPC.** The current RPC `get` uses an
-   indefinite timeout; confirm aborting `signal` cleanly tears down or abandons
-   the in-flight RPC rather than leaking it.
+4. **`signal` interaction with the RPC.** *Current implementation* races the
+   in-flight `get()` against the signal and rejects with `AbortError` when the
+   signal fires, but it **abandons** the underlying RPC rather than tearing it
+   down (`get()` uses an indefinite timeout). Open: confirm whether abandoning
+   is acceptable or whether the RPC must be actively cancelled to avoid a leak.
+5. **User-cancel mapping.** *Current implementation* treats `get()` resolving
+   `null` (no credential selected) as a user cancel and rejects with
+   `AbortError`. Open: confirm this is the desired contract vs. resolving empty
+   on a non-selection.
 
 ## Resolved during review
 

@@ -39,7 +39,7 @@ Resolution contract:
   }
   ```
 
-  `interact` is a "meta" protocol: any underlying exchange protocol (e.g. `vcapi`, `OID4VCI`) is negotiated at the interaction endpoint and stays hidden behind the URL, so CHAPI never needs to know or carry it. The polyfill treats `interactionUrl` as an **opaque** string — it does not parse, encode, or decode it (any obfuscation such as base64url-encoding is the caller's concern). This keeps the change client-side only — no mediator or RPC contract changes required for the initial release.
+  `interact` is a "meta" protocol: any underlying exchange protocol (e.g. `vcapi`, `OID4VCI`) is negotiated at the interaction endpoint and stays hidden behind the URL, so CHAPI never needs to know or carry it. Where `get()`/`store()` historically accepted a multi-key `protocols` object, `interact()` always sends a **single-key** object — just `interact` — which is expected to supersede the multi-key form going forward (see Security considerations for why the URL indirection is preferred). The polyfill treats `interactionUrl` as an **opaque** string — it does not parse, encode, or decode it (any obfuscation such as base64url-encoding is the caller's concern). This keeps the change client-side only — no mediator or RPC contract changes required for the initial release.
   
 - `recommendedHandlerOrigins` passes straight through to the underlying request options, identical to current `get()`/`store()` semantics.
   
@@ -111,6 +111,8 @@ The polyfill itself collects, stores, and persists **no** personal data. It is a
 - **Anti-fingerprinting:** preserved — `interact()` gives the caller no way to learn which handlers the user has, consistent with the existing privacy model.
   
 - `navigator` **clobbering:** the standalone factory export lets security- conscious callers avoid the `navigator` namespace entirely, reducing exposure to extension/browser interference noted in the issue.
+  
+- **Why a URL instead of an inline `protocols` object (design rationale):** the single `interact` URL is a layer of indirection over the "full" `protocols` object. Rather than embedding a multi-key protocols object directly in the initial channel (e.g. a QR code), the relying party hands over one URL; the consuming side fetches the full protocols object from it **over TLS**. This yields two properties an inline blob cannot: (1) **source authentication** — TLS authenticates the origin of the protocols object, so the recipient can verify who issued it; and (2) **support for disconnected systems** — a reader with no back-channel (e.g. a QR-code scanner) can still authenticate the source by reusing existing TLS infrastructure, without new key-distribution or crypto. The expectation is that the single-key `interact` object supersedes multi-key `protocols` objects going forward.
   
 ## Open questions
 

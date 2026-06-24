@@ -31,7 +31,15 @@ Resolution contract:
 ### Translation to existing flow
 - `interact()` always translates to a `navigator.credentials.get()` call with a `web` request. There is no `type` parameter: generating a request is expected to cover all current use cases (per review feedback on the draft PR), and a `store`-style flow can be added later without changing this signature if a concrete need emerges.
   
-- `interactionUrl` is carried via the **existing** `protocols` **map** (the query-param mechanism already used for URL-type credential handlers), not a new mediator field. This keeps the change client-side only — no mediator or RPC contract changes required for the initial release.
+- `interactionUrl` is carried via the **existing** `protocols` **map** (the query-param mechanism already used for URL-type credential handlers), not a new mediator field, under the well-known key **`interact`**:
+
+  ```js
+  web: {
+    protocols: {interact: interactionUrl}
+  }
+  ```
+
+  `interact` is a "meta" protocol: any underlying exchange protocol (e.g. `vcapi`, `OID4VCI`) is negotiated at the interaction endpoint and stays hidden behind the URL, so CHAPI never needs to know or carry it. The polyfill treats `interactionUrl` as an **opaque** string — it does not parse, encode, or decode it (any obfuscation such as base64url-encoding is the caller's concern). This keeps the change client-side only — no mediator or RPC contract changes required for the initial release.
   
 - `recommendedHandlerOrigins` passes straight through to the underlying request options, identical to current `get()`/`store()` semantics.
   
@@ -50,7 +58,8 @@ Per house practice, the request-construction logic is a **pure function** — `(
 ```
 Coordinator page
   → chapi.interact({interactionUrl, ...})
-    → pure builder → CredentialRequestOptions (interactionUrl placed in protocols)
+    → pure builder → CredentialRequestOptions (interactionUrl placed in
+      protocols under the `interact` key)
     → CredentialsContainer.get(options)  [existing RPC]
     → web-request-rpc → Credential Mediator (authn.io) in cross-origin iframe
     → mediator → user selects handler / handler receives interactionUrl as
@@ -113,16 +122,23 @@ review on the draft PR — they are not blockers to opening that draft.
 2. **Resolution payload.** Confirm `interact()` resolves to `{}` vs `undefined`,
    and whether a future version returns interaction results (and if so, what the
    minimal shape is).
-3. **`interactionUrl` mapping key.** Under which `protocols` key should
-   `interactionUrl` be placed for the mediator/handler to recognize it, and does
-   any deployed handler need a manifest update to accept it?
-4. **Performance for first-time calls.** The issue notes a no-`loadOnce()` path
+3. **Performance for first-time calls.** The issue notes a no-`loadOnce()` path
    may incur first-call setup cost (injecting the mediator iframe/styles). Do we
    need a documented "warm-up" call, or is lazy initialization on first
    `interact()` acceptable?
-5. **`signal` interaction with the RPC.** The current RPC `get` uses an
+4. **`signal` interaction with the RPC.** The current RPC `get` uses an
    indefinite timeout; confirm aborting `signal` cleanly tears down or abandons
    the in-flight RPC rather than leaking it.
+
+## Resolved during review
+
+- **`interactionUrl` mapping key** → use the well-known `protocols` key
+  **`interact`** (a "meta" protocol), with `interactionUrl` as the value. Any
+  underlying exchange protocol stays hidden behind the URL, so no `protocol`
+  param is needed on `interact()`. *Caveat:* a URL-type credential handler only
+  receives this value if it advertised `acceptedProtocols: ["interact"]` in its
+  manifest — deployed handlers may need that entry to participate.
+- **`type` param** → dropped; `interact()` always generates a request.
 
 ---
 

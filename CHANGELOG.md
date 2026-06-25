@@ -15,7 +15,7 @@
 - `install` option on `load()`/`loadOnce()` (default `true`, preserving the
   existing global-install behavior). When `false`, the polyfill attaches
   nothing to the global environment and only returns the polyfill, letting
-  callers place the API (e.g. `globalThis.chapi`) themselves.
+  callers place the API (e.g., `globalThis.chapi`) themselves.
 - Node.js unit tests (`node --test`) for the `interact()` functional core and
   imperative shell, run via `npm run test:node` (and as part of `npm test`).
 - Cross-browser smoke test suite (Playwright) covering Chromium, Firefox, and

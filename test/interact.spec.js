@@ -5,7 +5,7 @@ import {expect, test} from '@playwright/test';
 
 // Smoke test for the simplified `interact()` API wiring (PR #57). Verifies
 // that loading exposes `interact` on the returned polyfill object and, when
-// installing, at `globalThis.chapi`; that `install: false` attaches nothing;
+// installing, at `globalThis.chapi`; that `setGlobal: false` attaches nothing;
 // and that input validation reaches through the built bundle. The pure
 // builder and shell logic are covered exhaustively by the node:test unit
 // tests in test/node/; this only checks the wiring.
@@ -29,13 +29,13 @@ test('loadOnce() exposes interact() on the polyfill and globalThis.chapi',
     expect(result.sameChapi).toBe(true);
   });
 
-test('load({install: false}) attaches nothing globally', async ({page}) => {
+test('load({setGlobal: false}) attaches nothing globally', async ({page}) => {
   await page.goto('/test/fixtures/index.html');
 
   const result = await page.evaluate(async () => {
     const polyfill = await window.credentialHandlerPolyfill.load({
       mediatorOrigin: 'https://authn.io',
-      install: false
+      setGlobal: false
     });
     return {
       returnedInteractIsFn: typeof polyfill.chapi?.interact === 'function',

@@ -1,7 +1,7 @@
 # Spec: Simplified `interact()` API for interaction URLs
 > Status: In review — an initial implementation has landed in this PR; some open questions below remain to be settled during review (final method name, resolution payload, in-flight `signal` teardown). Addresses [#50](https://github.com/credential-handler/credential-handler-polyfill/issues/50).
 ## Summary
-Add a drastically simplified, single-call CHAPI entry point that lets issuer/verifier coordinator websites (relying parties) start a credential interaction by handing the polyfill an `interactionUrl`, without composing the full `web`/`VerifiablePresentation` request object themselves. The new `interact({interactionUrl, signal, recommendedHandlerOrigins})` method always generates a credential _request_ and resolves when the interaction completes (to an empty object/`undefined` for now) or rejects with an `AbortError` when the user cancels or the caller aborts via an `AbortSignal`. Under the hood it translates into the existing `credentialrequest` (`get()`) flow — reusing the established `protocols` mechanism to carry the URL — so it is compatible with today's mediator and deployed credential handlers. The method is reachable two ways: attached at `navigator.chapi` after `loadOnce()`, and returned from a standalone factory export so callers can attach the API wherever they like (addressing the "avoid `navigator`" request in the issue thread).
+Add a drastically simplified, single-call CHAPI entry point that lets issuer/verifier coordinator websites (relying parties) start a credential interaction by handing the polyfill an `interactionUrl`, without composing the full `web`/`VerifiablePresentation` request object themselves. The new `interact({interactionUrl, signal, recommendedHandlerOrigins})` method always generates a credential _request_ and resolves when the interaction completes (to an empty object/`undefined` for now) or rejects with an `AbortError` when the user cancels or the caller aborts via an `AbortSignal`. Under the hood it translates into the existing `credentialrequest` (`get()`) flow — reusing the established `protocols` mechanism to carry the URL — so it is compatible with today's mediator and deployed credential handlers. The method is reachable on the object returned by `load()`/`loadOnce()` and, when installing, at the global `globalThis.chapi`; the polyfill never attaches to `navigator` (addressing the "avoid `navigator`" request in the issue thread). An `install: false` option lets callers suppress all global attachment and place the API wherever they like.
 ## Implementation details & assumptions
 ### New public API
 ```js
@@ -22,11 +22,31 @@ Resolution contract:
 - Other failures reject with the existing error types surfaced by `get()` (e.g. `NotSupportedError`, `SecurityError` from the secure-context assertion).
   
 ### Two ways to reach it (issue asks for both)
-1. `navigator.chapi` — `load()`/`loadOnce()` attach a `chapi` object (containing `interact`) to `navigator` alongside the existing `navigator.credentialsPolyfill`, for parity with the current global pattern.
-  
-2. **Standalone factory** — a new export (working name `loadOnce`-style factory; final name TBD per the issue's bikeshedding note) returns the `chapi` object so callers can assign it wherever they want, e.g. `globalThis.chapi = await createChapi({...})`. This avoids forcing the `navigator` namespace, which the thread flags as prone to clobbering by password-manager extensions and browser security changes.
-  
-  Both paths share one implementation; `navigator.chapi` is just the factory result assigned to `navigator`.
+The polyfill deliberately **never** attaches `chapi` to `navigator` — the
+thread flags `navigator` as prone to clobbering by password-manager extensions
+and browser security changes. Instead:
+
+1. **Returned object** — `load()`/`loadOnce()` return the polyfill with a
+   `chapi` property (containing `interact`), so callers can wire it up however
+   they like. The recommended pattern attaches it to `globalThis` explicitly:
+
+   ```js
+   try {
+     globalThis.chapi = (await loadOnce()).chapi;
+   } catch(e) {
+     console.log('CHAPI failed to load.');
+   }
+   ```
+
+2. **`install` option** — `load({install})`/`loadOnce({install})` controls
+   automatic global installation. `install: true` (the default, for backwards
+   compatibility) installs the polyfill globally as today **and** sets
+   `globalThis.chapi = chapi`. `install: false` attaches nothing to the global
+   environment and only returns the polyfill, leaving placement entirely to the
+   caller.
+
+   Both paths share one implementation; `globalThis.chapi` (when installed) is
+   just the same `chapi` object that is also returned.
   
 ### Translation to existing flow
 - `interact()` always translates to a `navigator.credentials.get()` call with a `web` request. There is no `type` parameter: generating a request is expected to cover all current use cases (per review feedback on the draft PR), and a `store`-style flow can be added later without changing this signature if a concrete need emerges.
@@ -82,12 +102,19 @@ No new server endpoints. Surface area is the client API only:
 
 - New method `interact()` on the `chapi` object.
   
-- New factory export (name TBD) returning the `chapi` object.
+- New `chapi` property on the object returned by `load()`/`loadOnce()`.
   
-- New `navigator.chapi` global set during `load()`/`loadOnce()`.
+- New `globalThis.chapi` global set during `load()`/`loadOnce()` when
+  `install` is `true` (the default).
+  
+- New `install` option on `load()`/`loadOnce()` (default `true`) that, when
+  `false`, suppresses all global installation.
   
 
-No existing public methods change behavior; this is purely additive (no breaking change to `get()`, `store()`, `load()`, or `loadOnce()`).
+No existing public methods change behavior; this is purely additive. The new
+`install` option defaults to `true`, preserving the current global-install
+behavior of `load()`/`loadOnce()` (no breaking change to `get()`, `store()`,
+`load()`, or `loadOnce()`).
 ## Personal information impact
 The polyfill itself collects, stores, and persists **no** personal data. It is a message broker between the coordinator page and a cross-origin mediator.
 
@@ -104,13 +131,13 @@ The polyfill itself collects, stores, and persists **no** personal data. It is a
 ## Security considerations
 - **How could this be misused?** A malicious coordinator could pass a hostile `interactionUrl`. Mitigation: the polyfill validates the scheme is `https:`, does not fetch or execute the URL, and the URL only reaches a credential handler _after explicit user selection_ in the trusted mediator UI. User consent remains the gate, unchanged from `get()`.
   
-- **Attack surface / unnecessary data:** additive method reusing the existing RPC path; no new cross-origin channel, no new global beyond `navigator.chapi`. The empty-result contract avoids handing credential data to the relying party.
+- **Attack surface / unnecessary data:** additive method reusing the existing RPC path; no new cross-origin channel, and no new global beyond `globalThis.chapi` (which `install: false` suppresses entirely). The empty-result contract avoids handing credential data to the relying party.
   
 - **Trusted vs untrusted sources:** `interactionUrl` and `recommendedHandlerOrigins` are **untrusted** caller input — validated (scheme, type) before use, never interpolated into executable contexts. Results from the mediator are treated as today (validation TODOs in `CredentialsContainer` apply equally).
   
 - **Anti-fingerprinting:** preserved — `interact()` gives the caller no way to learn which handlers the user has, consistent with the existing privacy model.
   
-- `navigator` **clobbering:** the standalone factory export lets security- conscious callers avoid the `navigator` namespace entirely, reducing exposure to extension/browser interference noted in the issue.
+- `navigator` **clobbering:** the polyfill never attaches `chapi` to `navigator`, and `install: false` lets security-conscious callers suppress all automatic global attachment and place the API themselves, reducing exposure to extension/browser interference noted in the issue.
   
 - **Why a URL instead of an inline `protocols` object (design rationale):** the single `interact` URL is a layer of indirection over the "full" `protocols` object. Rather than embedding a multi-key protocols object directly in the initial channel (e.g. a QR code), the relying party hands over one URL; the consuming side fetches the full protocols object from it **over TLS**. This yields two properties an inline blob cannot: (1) **source authentication** — TLS authenticates the origin of the protocols object, so the recipient can verify who issued it; and (2) **support for disconnected systems** — a reader with no back-channel (e.g. a QR-code scanner) can still authenticate the source by reusing existing TLS infrastructure, without new key-distribution or crypto. The expectation is that the single-key `interact` object supersedes multi-key `protocols` objects going forward.
   

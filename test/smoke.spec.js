@@ -23,7 +23,7 @@ test('loadOnce() resolves and patches navigator.credentials', async ({
       hasWebCredential: typeof window.WebCredential === 'function',
       getIsFn: typeof navigator.credentials.get === 'function',
       storeIsFn: typeof navigator.credentials.store === 'function',
-      interactIsFn: typeof navigator.chapi?.interact === 'function'
+      interactIsFn: typeof globalThis.chapi?.interact === 'function'
     };
   });
 
@@ -32,7 +32,7 @@ test('loadOnce() resolves and patches navigator.credentials', async ({
   expect(result.hasWebCredential).toBe(true);
   expect(result.getIsFn).toBe(true);
   expect(result.storeIsFn).toBe(true);
-  // the simplified interact() API is installed on navigator.chapi by load()
+  // the simplified interact() API is installed at globalThis.chapi by load()
   expect(result.interactIsFn).toBe(true);
 });
 

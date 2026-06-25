@@ -8,10 +8,14 @@
   caller composing a full `web` request. It always generates a request,
   translating to the existing `get()` flow with the URL carried in the
   `protocols` map under the well-known `interact` meta-protocol key. Reachable
-  as `navigator.chapi.interact()` and on the object returned by
-  `load()`/`loadOnce()`. Resolves to an empty object on completion; rejects
-  with `AbortError` on user cancel or `signal` abort. See
-  `docs/specs/interact-api.md` and #50.
+  on the `chapi` object returned by `load()`/`loadOnce()` and, when installing,
+  at `globalThis.chapi` (the polyfill never attaches to `navigator`). Resolves
+  to an empty object on completion; rejects with `AbortError` on user cancel or
+  `signal` abort. See `docs/specs/interact-api.md` and #50.
+- `install` option on `load()`/`loadOnce()` (default `true`, preserving the
+  existing global-install behavior). When `false`, the polyfill attaches
+  nothing to the global environment and only returns the polyfill, letting
+  callers place the API (e.g. `globalThis.chapi`) themselves.
 - Node.js unit tests (`node --test`) for the `interact()` functional core and
   imperative shell, run via `npm run test:node` (and as part of `npm test`).
 - Cross-browser smoke test suite (Playwright) covering Chromium, Firefox, and

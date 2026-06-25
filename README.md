@@ -174,24 +174,20 @@ generates a credential _request_; under the hood it translates into the same
 under the well-known `interact` key.
 
 `interact()` lives on the `chapi` object. The polyfill does **not** attach it to
-`navigator`. By default `load()`/`loadOnce()` set `globalThis.chapi` for you,
-but the recommended pattern is to attach it explicitly so your app controls
-where the API lives:
+`navigator`. By default (`install: true`), `load()`/`loadOnce()` set
+`globalThis.chapi` for you, so you can just call `globalThis.chapi.interact(...)`
+after loading.
+
+If you'd rather control where the API lives, pass `install: false` — the
+polyfill then attaches nothing to the global environment and only returns the
+polyfill, so you place `chapi` yourself:
 
 ```js
 try {
-  globalThis.chapi = (await loadOnce()).chapi;
+  globalThis.chapi = (await loadOnce({install: false})).chapi;
 } catch(e) {
   console.log('CHAPI failed to load.');
 }
-```
-
-To suppress all automatic global installation and place the API entirely
-yourself, pass `install: false`:
-
-```js
-const {chapi} = await loadOnce({install: false});
-// nothing was attached to navigator or globalThis; attach it however you like
 ```
 
 Then call it:

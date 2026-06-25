@@ -12,7 +12,7 @@
   at `globalThis.chapi` (the polyfill never attaches to `navigator`). Resolves
   to an empty object on completion; rejects with `AbortError` on user cancel or
   `signal` abort. See `docs/specs/interact-api.md` and #50.
-- `install` option on `load()`/`loadOnce()` (default `true`, preserving the
+- `setGlobal` option on `load()`/`loadOnce()` (default `true`, preserving the
   existing global-install behavior). When `false`, the polyfill attaches
   nothing to the global environment and only returns the polyfill, letting
   callers place the API (e.g., `globalThis.chapi`) themselves.

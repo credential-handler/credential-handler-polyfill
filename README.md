@@ -173,10 +173,31 @@ generates a credential _request_; under the hood it translates into the same
 `navigator.credentials.get()` flow, carrying the URL in the `protocols` map
 under the well-known `interact` key.
 
+`interact()` lives on the `chapi` object. The polyfill does **not** attach it to
+`navigator`. By default `load()`/`loadOnce()` set `globalThis.chapi` for you,
+but the recommended pattern is to attach it explicitly so your app controls
+where the API lives:
+
 ```js
-// reachable as `navigator.chapi` after load(), or from the object returned
-// by load()/loadOnce()
-await navigator.chapi.interact({
+try {
+  globalThis.chapi = (await loadOnce()).chapi;
+} catch(e) {
+  console.log('CHAPI failed to load.');
+}
+```
+
+To suppress all automatic global installation and place the API entirely
+yourself, pass `install: false`:
+
+```js
+const {chapi} = await loadOnce({install: false});
+// nothing was attached to navigator or globalThis; attach it however you like
+```
+
+Then call it:
+
+```js
+await chapi.interact({
   // required: an `https:` URL the coordinator already trusts; the polyfill
   // treats it as opaque (it does not fetch, parse, or encode it). The full
   // "protocols" object is fetched from this URL over TLS by the selected

@@ -63,10 +63,17 @@ test('throws TypeError when interactionUrl is not a string', () => {
     () => createInteractRequest({interactionUrl: 42}), TypeError);
 });
 
-test('throws when interactionUrl is not an https: URL', () => {
+test('throws a protocol error when interactionUrl is not https:', () => {
   assert.throws(
     () => createInteractRequest({interactionUrl: 'http://exchange.example'}),
-    /https:/);
+    /protocol must be "https:"/);
+});
+
+test('throws a parse error with a cause for a malformed URL', () => {
+  assert.throws(
+    () => createInteractRequest({interactionUrl: 'not a url'}),
+    e => /must be a valid "https:" URL/.test(e.message) &&
+      e.cause !== undefined);
 });
 
 test('throws when recommendedHandlerOrigins is not an array', () => {
@@ -74,4 +81,20 @@ test('throws when recommendedHandlerOrigins is not an array', () => {
     interactionUrl: 'https://exchange.example/abc',
     recommendedHandlerOrigins: 'https://wallet.example'
   }), TypeError);
+});
+
+test('throws when recommendedHandlerOrigins has a non-URL entry', () => {
+  assert.throws(() => createInteractRequest({
+    interactionUrl: 'https://exchange.example/abc',
+    recommendedHandlerOrigins: ['https://wallet.example', 'not a url']
+  }), /array of URL strings/);
+});
+
+test('accepts an array of valid URL-string origins', () => {
+  const options = createInteractRequest({
+    interactionUrl: 'https://exchange.example/abc',
+    recommendedHandlerOrigins: ['https://wallet.example']
+  });
+  assert.deepEqual(
+    options.web.recommendedHandlerOrigins, ['https://wallet.example']);
 });

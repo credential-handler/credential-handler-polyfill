@@ -1,9 +1,9 @@
 # credential-handler-polyfill ChangeLog
 
-## 4.0.4 - 2026-06-dd
+## 4.1.0 - 2026-06-26
 
 ### Added
-- Simplified `interact()` API: a single-call entry point that starts a
+- Add simplified `interact()` API: a single-call entry point that starts a
   credential interaction from an opaque `https:` interaction URL, without the
   caller composing a full `web` request. It always generates a request,
   translating to the existing `get()` flow with the URL carried in the

@@ -73,7 +73,78 @@ await polyfill.loadOnce();
 console.log('Ready to work with credentials!');
 ````
 
-### Requesting and Storing Credentials
+### Requesting and Storing Credentials with `interact()`
+
+`interact()` is the recommended entry point for relying parties (issuers and
+verifiers). A coordinator website hands the polyfill a single **interaction
+URL** and the user's selected credential handler drives the rest. The
+interaction can perform a credential request, a credential store, or both —
+that choice is deferred to the exchange layer behind the interaction URL and is
+never expressed to or via CHAPI. As a result, apps using `interact()` no longer
+need to make the `get()` / `store()` distinction themselves; a single call
+covers all combinations.
+
+> **Note:** `interact()` is a new, simplified entry point. See the
+> [design spec](docs/specs/interact-api.md). The method name and return shape
+> may still change.
+
+The coordinator does not compose a full `web` request object itself. Under the
+hood, `interact()` translates the interaction URL into a single
+`navigator.credentials.get()` flow, carrying the URL in the `protocols` map
+under the well-known `interact` key. Whether the exchange behind that URL ends
+up requesting credentials, storing them, or both is opaque to CHAPI.
+
+`interact()` lives on the `chapi` object. The polyfill does **not** attach it to
+`navigator`. By default (`setGlobal: true`), `load()`/`loadOnce()` set
+`globalThis.chapi` for you, so you can just call `globalThis.chapi.interact(...)`
+after loading.
+
+If you'd rather control where the API lives, pass `setGlobal: false` — the
+polyfill then attaches nothing to the global environment and only returns the
+polyfill, so you place `chapi` yourself:
+
+```js
+try {
+  globalThis.chapi = (await loadOnce({setGlobal: false})).chapi;
+} catch(e) {
+  console.log('CHAPI failed to load.');
+}
+```
+
+Then call it:
+
+```js
+await chapi.interact({
+  // required: an `https:` URL the coordinator already trusts; the polyfill
+  // treats it as opaque (it does not fetch, parse, or encode it). The full
+  // "protocols" object is fetched from this URL over TLS by the selected
+  // handler, which authenticates its source and supports disconnected
+  // systems (e.g. QR-code readers).
+  interactionUrl: 'https://coordinator.example/exchanges/z1A2b3C4',
+  // optional: an AbortSignal to cancel the interaction
+  signal,
+  // optional: credential handler origins to recommend to the user
+  recommendedHandlerOrigins: ['https://wallet.example.chapi.io']
+});
+```
+
+The returned promise:
+
+- **resolves** to an empty object (`{}`) when the interaction completes; no
+  credential data is returned to the coordinator (data minimization),
+- **rejects** with a `DOMException` named `AbortError` when the user cancels or
+  the caller aborts via `signal`,
+- otherwise rejects with the same errors surfaced by
+  [`get()`](#get) (e.g. `SecurityError` outside a secure context).
+
+### Deprecated: `get()` and `store()`
+
+> **⚠️ Deprecated.** Relying parties should use
+> [`interact()`](#requesting-and-storing-credentials-with-interact) instead. A
+> single interaction URL covers credential request, storage, or both (the
+> operation is deferred to the exchange layer), so the `get()` / `store()`
+> distinction is no longer needed. These lower-level entry points remain
+> available for now and are documented here for existing integrations.
 
 A web application can `get()` and `store()` credentials without knowing anything
 about the user's wallet. This is intentional; for privacy reasons, the client
@@ -159,62 +230,6 @@ if(!result) {
   console.log('store credential operation did not succeed');
 }
 ```
-
-#### `interact()`
-
-> **Note:** `interact()` is a new, simplified entry point. See the
-> [design spec](docs/specs/interact-api.md). The method name and return shape
-> may still change.
-
-A coordinator website (a Relying Party such as an issuer or verifier) can start
-a credential interaction by handing the polyfill a single **interaction URL**,
-without composing a full `web` request object itself. `interact()` always
-generates a credential _request_; under the hood it translates into the same
-`navigator.credentials.get()` flow, carrying the URL in the `protocols` map
-under the well-known `interact` key.
-
-`interact()` lives on the `chapi` object. The polyfill does **not** attach it to
-`navigator`. By default (`setGlobal: true`), `load()`/`loadOnce()` set
-`globalThis.chapi` for you, so you can just call `globalThis.chapi.interact(...)`
-after loading.
-
-If you'd rather control where the API lives, pass `setGlobal: false` — the
-polyfill then attaches nothing to the global environment and only returns the
-polyfill, so you place `chapi` yourself:
-
-```js
-try {
-  globalThis.chapi = (await loadOnce({setGlobal: false})).chapi;
-} catch(e) {
-  console.log('CHAPI failed to load.');
-}
-```
-
-Then call it:
-
-```js
-await chapi.interact({
-  // required: an `https:` URL the coordinator already trusts; the polyfill
-  // treats it as opaque (it does not fetch, parse, or encode it). The full
-  // "protocols" object is fetched from this URL over TLS by the selected
-  // handler, which authenticates its source and supports disconnected
-  // systems (e.g. QR-code readers).
-  interactionUrl: 'https://coordinator.example/exchanges/z1A2b3C4',
-  // optional: an AbortSignal to cancel the interaction
-  signal,
-  // optional: credential handler origins to recommend to the user
-  recommendedHandlerOrigins: ['https://wallet.example.chapi.io']
-});
-```
-
-The returned promise:
-
-- **resolves** to an empty object (`{}`) when the interaction completes; no
-  credential data is returned to the coordinator (data minimization),
-- **rejects** with a `DOMException` named `AbortError` when the user cancels or
-  the caller aborts via `signal`,
-- otherwise rejects with the same errors surfaced by
-  [`get()`](#get) (e.g. `SecurityError` outside a secure context).
 
 #### WebCredential
 

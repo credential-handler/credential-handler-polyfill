@@ -58,9 +58,13 @@ access to the `navigator.credentials` and `credentialHandlerPolyfill` globals.
 
 ```js
 const polyfill = window.credentialHandlerPolyfill;
-// must be run from an async function if top-level await is unavailable
-await polyfill.loadOnce();
-console.log('Ready to work with credentials!');
+try {
+  // must be run from an async function if top-level await is unavailable
+  await polyfill.loadOnce();
+  console.log('Ready to work with credentials!');
+} catch(e) {
+  console.error('Failed to load CHAPI.', e);
+}
 ```
 
 Otherwise (if you're developing on Node.js and using Webpack, for example),
@@ -68,21 +72,38 @@ import it in the usual manner:
 
 ```js
 import * as polyfill from 'credential-handler-polyfill';
-// must be run from an async function if top-level await is unavailable
-await polyfill.loadOnce();
-console.log('Ready to work with credentials!');
-````
+try {
+  // must be run from an async function if top-level await is unavailable
+  await polyfill.loadOnce();
+  console.log('Ready to work with credentials!');
+} catch(e) {
+  console.error('CHAPI failed to load.', e);
+}
+```
+
+If you would prefer to not add any global accessors to the API, you can load it
+this way:
+
+```js
+import * as polyfill from 'credential-handler-polyfill';
+try {
+  const api = await polyfill.loadOnce({setGlobal: false});
+  // do something, like call `api.chapi.interact(...)`
+} catch(e) {
+  console.error('CHAPI failed to load.', e);
+}
+```
 
 ### Requesting and Storing Credentials with `interact()`
 
-`interact()` is the recommended entry point for relying parties (issuers and
-verifiers). A coordinator website hands the polyfill a single **interaction
-URL** and the user's selected credential handler drives the rest. The
-interaction can perform a credential request, a credential store, or both —
-that choice is deferred to the exchange layer behind the interaction URL and is
-never expressed to or via CHAPI. As a result, apps using `interact()` no longer
-need to make the `get()` / `store()` distinction themselves; a single call
-covers all combinations.
+`interact()` is the recommended entry point for relying parties (issuer and
+verifier coordinator websites). A coordinator website hands this API a
+single **interaction URL** and the user's selected credential handler (e.g.,
+digital wallet) drives the rest. The interaction can perform a credential
+request, a credential store, or both; the choice is deferred to the exchange
+layer behind the interaction URL and is never expressed to or via CHAPI. As
+a result, apps using `interact()` no longer need to make the `get()` / `store()`
+distinction themselves; a single call covers all combinations.
 
 > **Note:** `interact()` is a new, simplified entry point. See the
 > [design spec](docs/specs/interact-api.md). The method name and return shape
@@ -107,7 +128,7 @@ polyfill, so you place `chapi` yourself:
 try {
   globalThis.chapi = (await loadOnce({setGlobal: false})).chapi;
 } catch(e) {
-  console.log('CHAPI failed to load.');
+  console.log('CHAPI failed to load.', e);
 }
 ```
 
@@ -115,11 +136,13 @@ Then call it:
 
 ```js
 await chapi.interact({
-  // required: an `https:` URL the coordinator already trusts; the polyfill
-  // treats it as opaque (it does not fetch, parse, or encode it). The full
-  // "protocols" object is fetched from this URL over TLS by the selected
-  // handler, which authenticates its source and supports disconnected
-  // systems (e.g. QR-code readers).
+  // required: an `https:` URL the coordinator already trusts, from its
+  // own origin or another origin they expect the end user to trust;
+  // CHAPI treats it as opaque (it does not fetch, parse, or encode it). The
+  // full "protocols" object is fetched from this URL over TLS by the
+  // user-selected credential handler (e.g., a digital wallet), enabling
+  // TLS-authentication of its source, even if the URL is delivered via
+  // a disconnected system (e.g., via QR code).
   interactionUrl: 'https://coordinator.example/exchanges/z1A2b3C4',
   // optional: an AbortSignal to cancel the interaction
   signal,

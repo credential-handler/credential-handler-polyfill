@@ -31,7 +31,7 @@ Credential Handler API (CHAPI) is:
 
 * a browser API
 * lets web apps securely `get()` and `store()` credentials, without
-  having to roll their own wallet infrastructure
+* lets web apps securely exchange credentials with digital wallets
 * provides a secure _trusted UI_ for users to manage those credentials
 * gives users ability to choose service providers for wallets
 

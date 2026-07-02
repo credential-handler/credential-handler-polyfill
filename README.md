@@ -142,7 +142,7 @@ await chapi.interact({
   // user-selected credential handler (e.g., a digital wallet), enabling
   // TLS-authentication of its source, even if the URL is delivered via
   // a disconnected system (e.g., via QR code).
-  interactionUrl: 'https://coordinator.example/exchanges/z1A2b3C4',
+  interactionUrl: 'https://coordinator.example/interactions/z1A2b3C4',
   // optional: an AbortSignal to cancel the interaction
   signal,
   // optional: credential handler origins to recommend to the user

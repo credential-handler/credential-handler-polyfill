@@ -13,7 +13,7 @@ A web application can `get()` and `store()` credentials without knowing anything
 about the user's wallet. This is intentional; for privacy reasons, the client
 app must not be able to query any information (without user consent) about which wallets or
 credential handlers a user may have installed (otherwise, fingerprinting and
-other attacks would be possible).
+other attacks would be possible) prior to the user consenting to use a wallet.
 
 ## `get()`
 
